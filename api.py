@@ -3,7 +3,7 @@ import time
 import requests
 from lumaai import LumaAI
 from dotenv import load_dotenv
-
+import json
 # Load environment variables
 load_dotenv()
 
@@ -19,7 +19,7 @@ def test_image_generation():
 
     # Create an image generation
     generation = client.generations.image.create(
-        prompt="A serene Japanese garden with cherry blossoms and a small pond",
+        prompt="A serene Japanese garden with cherry blossoms and a small pond make it realistic and put swans in the pond",
         aspect_ratio="16:9",
         model="photon-1"
     )
@@ -68,21 +68,21 @@ def test_video_generation(image_url):
 
     print(f"Video generation completed! URL: {generation.assets.video}")
     print(generation)
+    with open("generation.json", "w") as f:
+        json.dump(generation, f)
     return generation.assets.video
 
 
 def main():
     try:
         # Test image generation
-        # image_url = test_image_generation()
-
-        img_url = "https://storage.cdn-luma.com/dream_machine/0e59d73b-95d4-42e1-be6e-7210837bb51c/219e0494-ab6c-48c8-bc6e-e45b7851eac1_result30d9c4f49b3d7d47.jpg"
+        image_url = test_image_generation()
 
         # Test video generation using the generated image
-        video_url = test_video_generation(img_url)
+        video_url = test_video_generation(image_url)
 
         print("\nAll tests completed successfully!")
-        # print(f"Image URL: {image_url}")
+        print(f"Image URL: {image_url}")
         print(f"Video URL: {video_url}")
 
     except Exception as e:

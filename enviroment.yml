@@ -1,0 +1,11 @@
+name: haru-hack
+channels: 
+  - conda-forge
+dependencies:
+  - python==3.11
+  - pip
+  - pip:
+    - lumaai
+    - google-genai
+    - dotenv
+  

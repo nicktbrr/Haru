@@ -20,9 +20,7 @@ logger = logging.getLogger(__name__)
 # Load environment variables
 load_dotenv()
 
-# GEMINI_API_KEY = 
-os.environ["GEMINI_API_KEY"] = os.getenv("GEMINI_API_KEY", "")
-genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
 
 class GeminiMusicAnalyzer:
@@ -164,10 +162,23 @@ class GeminiMusicAnalyzer:
 
 
 class LumaAIConnector:
+    """Class to generate a Video from LumaAI."""
     def __init__(self):
+        """Initialize the Video Generator using LumaAI."""
         self.luma = LumaAI()
 
     def generate_video(self,prompt:str):
+        """Uses LumaAI to generate videos based on a prompt.
+
+        Args:
+            prompt (str): Description of what kind of video to generate.
+
+        Raises:
+            RuntimeError: Raises an error if a video can not be generated.
+
+        Returns:
+            URL: URL to the video file. 
+        """
         generation = self.luma.generations.create(
             prompt=prompt,
             keyframes={
@@ -190,7 +201,6 @@ class LumaAIConnector:
         return generation.assets.video
 
 
-
 if __name__ == "__main__":
     try:
         analyzer = GeminiMusicAnalyzer()
@@ -202,7 +212,3 @@ if __name__ == "__main__":
         # print(description)
     except Exception as e:
         logger.error(f"Error in main: {e}")
-
-
-
-

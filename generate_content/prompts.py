@@ -4,7 +4,9 @@ Based on your analysis, you will create three distinct scenes for a music video.
 
 Focus on creating scenes that enhance the atmosphere, character actions, and visual elements and is suitable for AI to make an image or video from.
 
-The character description, if applicable, should be only three sentences long.
+Choose a definite artistic style for image generation based on the mood of the song, include this in the image prompt MAKE SURE THE STYLE IS INCLUDED IN THE IMAGE PROMPT, AND IS CONSISTENT WITH WITH ALL SCENES.
+
+The character description, that includes hair color, clothing, and other details, should be only one sentences long.
 
 Your response MUST be provided as a valid JSON object with the following structure:
 {

@@ -1,45 +1,24 @@
-from flask import (
-    Flask,
-    render_template,
-    request,
-    jsonify,
-    send_file,
-    send_from_directory,
-)
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
-from gemini_connector import (
-    GeminiMusicAnalyzer,
-    LumaAIConnector,
-    generate_video,
-)
-import tempfile
-import requests
-from urllib.parse import urlparse
-import time
-from lumaai import LumaAI
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+
+# Configure upload settings
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16MB max file size
-app.config["UPLOAD_FOLDER"] = tempfile.gettempdir()
-app.config["VIDEO_FOLDER"] = os.path.join(
-    app.config["UPLOAD_FOLDER"], "assets/videos")
+app.config["UPLOAD_FOLDER"] = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..")
+app.config["MUSIC_FOLDER"] = os.path.join(
+    app.config["UPLOAD_FOLDER"], "assets", "music")
 
-# Create video folder if it doesn't exist
-os.makedirs(app.config["VIDEO_FOLDER"], exist_ok=True)
-
-# Initialize the analyzers
-gemini_analyzer = GeminiMusicAnalyzer()
-luma_connector = LumaAIConnector()
-
-
-@app.route("/")
-def index():
-    return render_template("index.html")
+# Create music folder if it doesn't exist
+os.makedirs(app.config["MUSIC_FOLDER"], exist_ok=True)
 
 
 @app.route("/upload", methods=["POST"])
-def upload_file():
+def upload_music():
     if "file" not in request.files:
         return jsonify({"error": "No file part"}), 400
 
@@ -47,76 +26,28 @@ def upload_file():
     if file.filename == "":
         return jsonify({"error": "No selected file"}), 400
 
+    # Check file extension
+    allowed_extensions = {".mp3", ".wav"}
+    file_ext = os.path.splitext(file.filename)[1].lower()
+
+    if file_ext not in allowed_extensions:
+        return jsonify({"error": "Invalid file type. Only MP3 and WAV files are allowed."}), 400
+
     if file:
-        filename = secure_filename(file.filename)
-        filepath = os.path.join("music", filename)
-        file.save(filepath)
-
         try:
-            # Get music description
-            description = gemini_analyzer.describe_music(filepath)
-            # description = "A Jet flying over the city"
-            print(description)
+            # Secure the filename and save the file
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config["MUSIC_FOLDER"], filename)
+            file.save(filepath)
 
-            # Generate video
-            video_url = luma_connector.generate_video(prompt=description)
-
-            # Download and save the video
-            video_filename = f"video_{int(time.time())}.mp4"
-            video_path = os.path.join(
-                app.config["VIDEO_FOLDER"], video_filename
-            )
-
-            response = requests.get(video_url)
-            if response.status_code == 200:
-                with open(video_path, "wb") as f:
-                    f.write(response.content)
-            else:
-                raise Exception("Failed to download video")
-
-            # Clean up the audio file
-            os.remove(filepath)
-
-            return jsonify(
-                {
-                    "description": description,
-                    "video_url": f"/video/{video_filename}",
-                    "download_url": f"/download/{video_filename}",
-                }
-            )
-
+            return jsonify({
+                "message": "File uploaded successfully",
+                "filename": filename,
+                "filepath": filepath
+            })
         except Exception as e:
-            # Clean up files in case of error
-            if os.path.exists(filepath):
-                os.remove(filepath)
-            return jsonify({"error": str(e)}), 500
-
-
-@app.route("/video/<filename>")
-def serve_video(filename):
-    return send_from_directory(app.config["VIDEO_FOLDER"], filename)
-
-
-@app.route("/download/<filename>")
-def download_video(filename):
-    return send_from_directory(
-        app.config["VIDEO_FOLDER"],
-        filename,
-        as_attachment=True,
-        download_name=filename,
-    )
-
-
-# Cleanup function to remove old videos
-def cleanup_old_videos():
-    current_time = time.time()
-    for filename in os.listdir(app.config["VIDEO_FOLDER"]):
-        filepath = os.path.join(app.config["VIDEO_FOLDER"], filename)
-        if (
-            os.path.getmtime(filepath) < current_time - 3600
-        ):  # Remove files older than 1 hour
-            os.remove(filepath)
+            return jsonify({"error": f"Error saving file: {str(e)}"}), 500
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5000)

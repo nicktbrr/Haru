@@ -1,78 +1,123 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Music, Upload, Check, AlertCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { CherryBlossom } from "./cherry-blossom"
+import { useState } from "react";
+import { Music, Upload, Check, AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CherryBlossom } from "./cherry-blossom";
 
 export default function AudioUploader() {
-  const [file, setFile] = useState<File | null>(null)
-  const [uploading, setUploading] = useState(false)
-  const [uploadProgress, setUploadProgress] = useState(0)
-  const [uploadComplete, setUploadComplete] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadComplete, setUploadComplete] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0]
+    const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       if (selectedFile.type.startsWith("audio/")) {
-        setFile(selectedFile)
-        setError(null)
+        setFile(selectedFile);
+        setError(null);
       } else {
-        setError("Please select a valid audio file (MP3, WAV, etc.)")
-        setFile(null)
+        setError("Please select a valid audio file (MP3, WAV, etc.)");
+        setFile(null);
       }
     }
-  }
+  };
 
   const handleUpload = async () => {
-    if (!file) return
+    if (!file) return;
 
-    setUploading(true)
-    setUploadProgress(0)
-    setError(null)
+    setUploading(true);
+    setUploadProgress(0);
+    setError(null);
 
-    // Simulate upload progress
-    const interval = setInterval(() => {
-      setUploadProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          return 100
-        }
-        return prev + 5
-      })
-    }, 200)
+    const formData = new FormData();
+    formData.append("file", file);
 
-    // Simulate upload completion after 4 seconds
-    setTimeout(() => {
-      clearInterval(interval)
-      setUploadProgress(100)
-      setUploading(false)
-      setUploadComplete(true)
-    }, 4000)
-  }
+    try {
+      const xhr = new XMLHttpRequest();
+
+      // Create a promise to handle the XHR request
+      const uploadPromise = new Promise((resolve, reject) => {
+        xhr.upload.addEventListener("progress", (event) => {
+          if (event.lengthComputable) {
+            const progress = (event.loaded / event.total) * 100;
+            setUploadProgress(Math.round(progress));
+          }
+        });
+
+        xhr.addEventListener("load", () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(JSON.parse(xhr.response));
+          } else {
+            reject(
+              new Error(
+                xhr.response ? JSON.parse(xhr.response).error : "Upload failed"
+              )
+            );
+          }
+        });
+
+        xhr.addEventListener("error", () => {
+          reject(new Error("Upload failed"));
+        });
+      });
+
+      xhr.open("POST", "http://127.0.0.1:5000/upload");
+      xhr.send(formData);
+
+      await uploadPromise;
+      setUploadProgress(100);
+      setUploadComplete(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed");
+      setUploadProgress(0);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   return (
     <div className="space-y-8">
       <div className="text-center relative">
         <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
-          <CherryBlossom className="w-8 h-8 text-pink-400 animate-float-blossom" variant="full" />
+          <CherryBlossom
+            className="w-8 h-8 text-pink-400 animate-float-blossom"
+            variant="full"
+          />
         </div>
-        <h2 className="text-2xl font-bold text-pink-700 mb-2">Upload Your Audio</h2>
-        <p className="text-gray-600 font-medium">Upload your MP3, WAV, or other audio file to get started</p>
+        <h2 className="text-2xl font-bold text-pink-700 mb-2">
+          Upload Your Audio
+        </h2>
+        <p className="text-gray-600 font-medium">
+          Upload your MP3, WAV, or other audio file to get started
+        </p>
       </div>
 
       <div className="border-3 border-dashed border-pink-200 rounded-3xl p-10 text-center bg-white/50 transition-all hover:bg-white/70 group relative">
         <div className="absolute -right-4 -top-4">
-          <CherryBlossom className="w-8 h-8 text-pink-400 animate-float-blossom" variant="simple" />
+          <CherryBlossom
+            className="w-8 h-8 text-pink-400 animate-float-blossom"
+            variant="simple"
+          />
         </div>
 
-        <input type="file" accept="audio/*" onChange={handleFileChange} className="hidden" id="audio-upload" />
-        <label htmlFor="audio-upload" className="cursor-pointer flex flex-col items-center justify-center gap-4">
+        <input
+          type="file"
+          accept="audio/*"
+          onChange={handleFileChange}
+          className="hidden"
+          id="audio-upload"
+        />
+        <label
+          htmlFor="audio-upload"
+          className="cursor-pointer flex flex-col items-center justify-center gap-4"
+        >
           <div className="w-20 h-20 rounded-full bg-pink-100 flex items-center justify-center group-hover:scale-110 transition-transform">
             <Music className="h-10 w-10 text-pink-500" />
           </div>
@@ -83,7 +128,10 @@ export default function AudioUploader() {
         </label>
 
         <div className="absolute -left-4 -bottom-4">
-          <CherryBlossom className="w-8 h-8 text-pink-400 animate-float-blossom" variant="petal" />
+          <CherryBlossom
+            className="w-8 h-8 text-pink-400 animate-float-blossom"
+            variant="petal"
+          />
         </div>
       </div>
 
@@ -95,7 +143,9 @@ export default function AudioUploader() {
             </div>
             <div>
               <p className="font-bold text-pink-700">{file.name}</p>
-              <p className="text-sm text-pink-500 font-medium">{(file.size / (1024 * 1024)).toFixed(2)} MB</p>
+              <p className="text-sm text-pink-500 font-medium">
+                {(file.size / (1024 * 1024)).toFixed(2)} MB
+              </p>
             </div>
           </div>
           {!uploadComplete ? (
@@ -128,7 +178,7 @@ export default function AudioUploader() {
             <span>Uploading...</span>
             <span>{uploadProgress}%</span>
           </div>
-          <Progress value={uploadProgress} className="h-2 bg-pink-100" indicatorClassName="bg-pink-500" />
+          <Progress value={uploadProgress} className="h-2 bg-pink-100" />
         </div>
       )}
 
@@ -147,11 +197,11 @@ export default function AudioUploader() {
           </div>
           <AlertTitle className="font-bold">Upload Complete</AlertTitle>
           <AlertDescription className="font-medium">
-            Your audio file has been uploaded successfully. You can now customize your video.
+            Your audio file has been uploaded successfully. You can now
+            customize your video.
           </AlertDescription>
         </Alert>
       )}
     </div>
-  )
+  );
 }
-

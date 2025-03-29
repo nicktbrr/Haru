@@ -1,38 +1,38 @@
 {
   "song_analysis": {
-    "title": "Lo-fi Girl",
+    "title": "Lo-Fi Girl",
     "artist": "Unknown",
-    "genre": "Lo-fi Hip-Hop",
-    "tempo_bpm": "90",
-    "mood": "Chill, Relaxed, Reflective",
-    "lyrical_themes": "Daily hustle, overcoming obstacles, staying true to oneself, self-worth",
-    "instrumentation": "Drums, bass, sampled melody (likely piano or keyboard), vocal samples",
-    "character_description": "The main character is a stylish young woman with long purple hair, wearing a graphic tee and high-waisted jeans."
+    "genre": "Lo-Fi Hip Hop",
+    "tempo_bpm": "75",
+    "mood": "Chill, relaxed, laid-back",
+    "lyrical_themes": "Urban life, chill vibes, perseverance, staying true to yourself",
+    "instrumentation": "Drums, keyboard, bass, sampled sounds",
+    "character_description": "The main character, a young woman, embodies urban coolness with long, wavy black hair, stylish streetwear, and an air of quiet confidence."
   },
   "scenes": [
     {
       "scene_number": 1,
-      "scene_setting": "Rooftop overlooking a bustling city at sunset",
-      "video_prompt": "A young woman with long purple hair sits on the edge of a rooftop at sunset, overlooking a vibrant city. She's wearing a graphic tee and high-waisted jeans. The city lights begin to twinkle as the sun dips below the horizon. She bobs her head in time to the music, lost in thought.",
-      "image_prompt": "Young woman with long purple hair sitting on a rooftop, vibrant city sunset in the background, contemplative expression. Synthwave vaporwave color palette, digital painting style.",
-      "scene_description": "The character reflects on her day while overlooking the city.",
-      "action": "Sitting, contemplating, head bobbing to the music"
+      "scene_setting": "Rooftop overlooking a cityscape at sunset.",
+      "video_prompt": "A young woman walks to the edge of a rooftop overlooking a vibrant city skyline at sunset. She's wearing headphones and nodding to the music. The camera slowly zooms in on her face as she smiles faintly.",
+      "image_prompt": "Young woman with long black hair and stylish streetwear standing on a rooftop overlooking a cityscape at sunset, wearing headphones, cinematic style, dramatic lighting, deep blacks, focus on the girl with a slight smile.",
+      "scene_description": "The character is enjoying the music and the view, a moment of peace amidst the urban hustle. She's reflective and present in the moment.",
+      "action": "Walking, looking at the view, listening to music, smiling."
     },
     {
       "scene_number": 2,
-      "scene_setting": "A cozy, cluttered bedroom with fairy lights and posters",
-      "video_prompt": "The same young woman is now in her bedroom, surrounded by fairy lights, posters, and stacks of books. She's sitting at her desk, working on a laptop, with headphones on. A cat jumps onto the desk and rubs against her arm. She smiles and pets the cat before returning to her work.",
-      "image_prompt": "Cozy bedroom interior, fairy lights, posters, young woman at desk with laptop and cat, warm color palette. Synthwave vaporwave color palette, digital painting style.",
-      "scene_description": "The character is working on her laptop in a comfortable home environment, with a cat providing a moment of levity.",
-      "action": "Working on laptop, petting cat"
+      "scene_setting": "A late-night convenience store.",
+      "video_prompt": "Inside a brightly lit 24-hour convenience store, the same young woman browses the aisles, picking up a drink and a snack. The store is mostly empty, except for a tired-looking cashier. Close-up shot of her hands selecting items.",
+      "image_prompt": "Close up of a young woman's hands choosing a drink and snack in a convenience store, illuminated by bright overhead lights, cinematic style, realistic textures, shallow depth of field, tired looking cashier in the background, grainy.",
+      "scene_description": "A mundane but relatable scene, emphasizing the urban setting. It captures the late-night atmosphere and sense of anonymity.",
+      "action": "Browsing, selecting items, interacting briefly with the cashier."
     },
     {
       "scene_number": 3,
-      "scene_setting": "Nighttime city street with neon lights and light rain",
-      "video_prompt": "The young woman walks down a nighttime city street, the neon lights reflecting off the wet pavement. Light rain falls. She's holding an umbrella and listening to music on her headphones, a slight smile on her face. She passes a street artist creating a mural.",
-      "image_prompt": "Nighttime city street, neon lights reflecting on wet pavement, light rain, young woman with umbrella and headphones, street art mural in background. Synthwave vaporwave color palette, digital painting style.",
-      "scene_description": "The character immerses herself in the vibrant energy of the city at night, finding beauty in the rain.",
-      "action": "Walking, listening to music, observing street art"
+      "scene_setting": "A graffiti-covered alleyway.",
+      "video_prompt": "The young woman walks down a graffiti-covered alleyway at night, the only light coming from a flickering streetlamp. She walks with a confident stride, her silhouette emphasized by the shadows. Camera follows her from behind.",
+      "image_prompt": "Silhouette of a young woman walking down a graffiti-covered alleyway at night, lit by a single flickering streetlamp, cinematic style, strong shadows, vibrant graffiti colors contrasting with dark tones, mysterious.",
+      "scene_description": "This scene adds a touch of edginess and mystery. The graffiti represents the urban environment and the character's connection to it.",
+      "action": "Walking confidently, being aware of her surroundings."
     }
   ]
 }

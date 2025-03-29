@@ -37,8 +37,28 @@ Your response MUST be provided as a valid JSON object with the following structu
       "scene_description": "...",
       "action": "..."
     }
-    // Generate 4-6 scenes total
+    // Generate 3 scenes total
   ]
 }"""
 
-SONG_DESC_USER_PROMPT = f"""Analyze the following song and create a music video concept."""
+SONG_DESC_USER_PROMPT = f"""Analyze the following song and create a music video concept. For the artistic style choose one of the following
+Anime
+Adds bold lines and vibrant colors, giving a hand-drawn, animated look.
+
+Cinematic
+Creates dramatic lighting and depth, perfect for a film-like appearance.
+
+Watercolor
+Softens the image with brush-like textures for a painterly effect.
+
+3D Render
+Adds realistic textures and depth for a lifelike, digital look.
+
+Illustration
+Emphasizes outlines and color fills, giving a classic illustrative feel.
+
+Surrealist
+Applies dream-like distortions and unusual textures for a surreal vibe.
+
+Concept Art
+Focuses on dramatic lighting and composition, ideal for storytelling visuals."""

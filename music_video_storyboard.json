@@ -1,0 +1,38 @@
+{
+  "song_analysis": {
+    "title": "Lo Fi Girl",
+    "artist": "Chillhop Records",
+    "genre": "Lo-fi Hip Hop",
+    "tempo_bpm": "90",
+    "mood": "Chill, relaxed, mellow, slightly melancholic",
+    "lyrical_themes": "City life, staying on your grind, good luck, self-improvement, the grind",
+    "instrumentation": "Drums, bass, keyboard, sampled sounds, turntable scratches",
+    "character_description": "She is a young woman finding her way in the city, balancing dreams with the everyday hustle. Often introspective, she finds solace in music and strives for self-improvement. She embraces a low-key, urban style with a touch of individuality."
+  },
+  "scenes": [
+    {
+      "scene_number": 1,
+      "scene_setting": "A bustling street corner in a vibrant city, transitioning from late afternoon to early evening. Neon lights are starting to flicker on.",
+      "video_prompt": "A young woman with headphones walking through a crowded city street at dusk. Focus on capturing her isolation amidst the busy environment. Neon signs and streetlights create a moody, urban atmosphere. The camera follows her as she walks, occasionally cutting to close-ups of her face showing subtle emotions.",
+      "image_prompt": "Close-up shot of a young woman with headphones walking in a vibrant city. Her expression is thoughtful, illuminated by neon lights. Street scene with blurred figures. Moody and atmospheric. Colors are vibrant and deep.",
+      "scene_description": "The main character walks through the city, seemingly lost in her own world, listening to music. The scene establishes her presence in an urban environment and hints at a sense of introspection.",
+      "action": "Walking, listening to music, observing the city."
+    },
+    {
+      "scene_number": 2,
+      "scene_setting": "The character's small, cozy apartment overlooking the city. It's night, and the city lights provide the main source of illumination.",
+      "video_prompt": "A young woman sitting by her window, looking out at the city lights at night. She has a turntable and record collection in the background. The camera slowly zooms in on her face as she contemplates the cityscape. Subtle movements like a hand tapping rhythmically add to the mood.",
+      "image_prompt": "Interior shot of a cozy apartment with a young woman sitting by the window. City lights visible outside. Record player and vinyl records are in the background. A single lamp creates a warm glow in the room. Soft, intimate, and nostalgic.",
+      "scene_description": "The character is at home, contemplating her life and dreams while listening to music. The city lights serve as a constant reminder of the world beyond her personal space.",
+      "action": "Sitting, listening to music, contemplating, looking at the city lights."
+    },
+    {
+      "scene_number": 3,
+      "scene_setting": "A dimly lit, underground record store. The shelves are overflowing with vinyl, and the air is thick with the scent of old paper and vinyl.",
+      "video_prompt": "The young woman browsing through vinyl records in a dimly lit, underground record store. The camera focuses on her hands as she flips through the records. Other customers are visible, but they are blurred and out of focus. The lighting is warm and inviting, creating a sense of community and belonging.",
+      "image_prompt": "Young woman looking at old records in a vinyl record store. The lighting is dim and warm. Books and records surround the subjects. Warm colors are prominent, with heavy shadows.",
+      "scene_description": "The character finds solace and inspiration in the community of a record store, connecting with music and other music lovers. ",
+      "action": "Browsing records, engaging with store owners"
+    }
+  ]
+}

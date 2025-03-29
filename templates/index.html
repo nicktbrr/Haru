@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music to Video Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .loading {
+            display: none;
+        }
+        .loading.active {
+            display: block;
+        }
+        .result {
+            display: none;
+        }
+        .result.active {
+            display: block;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">Music to Video Generator</h1>
+        
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6">
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="audioFile">
+                    Upload Audio File
+                </label>
+                <input type="file" 
+                       id="audioFile" 
+                       accept=".mp3,.wav,.ogg,.flac,.m4a"
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <p class="text-sm text-gray-500 mt-1">Supported formats: MP3, WAV, OGG, FLAC, M4A</p>
+            </div>
+
+            <button onclick="uploadFile()" 
+                    class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200">
+                Generate Video
+            </button>
+
+            <div id="loading" class="loading mt-6 text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+                <p class="mt-2 text-gray-600">Processing your music and generating video...</p>
+            </div>
+
+            <div id="result" class="result mt-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">Results</h2>
+                
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-2 text-gray-700">Music Description</h3>
+                    <div id="description" class="bg-gray-50 p-4 rounded-lg text-gray-700 whitespace-pre-wrap"></div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-700">Generated Video</h3>
+                    <div class="video-container mb-4">
+                        <video id="videoPlayer" controls class="w-full h-full">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <div class="flex justify-center">
+                        <a id="downloadButton" 
+                           href="#" 
+                           class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200">
+                            Download Video
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById('audioFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a file first');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Show loading
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('result').classList.remove('active');
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Display results
+                    document.getElementById('description').textContent = data.description;
+                    const videoPlayer = document.getElementById('videoPlayer');
+                    videoPlayer.src = data.video_url;
+                    
+                    // Set up download button
+                    const downloadButton = document.getElementById('downloadButton');
+                    downloadButton.href = data.download_url;
+                    
+                    document.getElementById('result').classList.add('active');
+                } else {
+                    alert(data.error || 'An error occurred');
+                }
+            } catch (error) {
+                alert('An error occurred while processing your request');
+                console.error(error);
+            } finally {
+                // Hide loading
+                document.getElementById('loading').classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html> 

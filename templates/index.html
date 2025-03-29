@@ -62,25 +62,8 @@
             <div id="result" class="result mt-6">
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">Results</h2>
                 
-                <div class="mb-6">
-                    <h3 class="text-xl font-semibold mb-2 text-gray-700">Music Description</h3>
-                    <div id="description" class="bg-gray-50 p-4 rounded-lg text-gray-700 whitespace-pre-wrap"></div>
-                </div>
-
-                <div>
-                    <h3 class="text-xl font-semibold mb-2 text-gray-700">Generated Video</h3>
-                    <div class="video-container mb-4">
-                        <video id="videoPlayer" controls class="w-full h-full">
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    <div class="flex justify-center">
-                        <a id="downloadButton" 
-                           href="#" 
-                           class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200">
-                            Download Video
-                        </a>
-                    </div>
+                <div id="scenes-container" class="space-y-8">
+                    <!-- Scenes will be dynamically inserted here -->
                 </div>
             </div>
         </div>
@@ -112,14 +95,34 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Display results
-                    document.getElementById('description').textContent = data.description;
-                    const videoPlayer = document.getElementById('videoPlayer');
-                    videoPlayer.src = data.video_url;
-                    
-                    // Set up download button
-                    const downloadButton = document.getElementById('downloadButton');
-                    downloadButton.href = data.download_url;
+                    // Clear previous results
+                    const scenesContainer = document.getElementById('scenes-container');
+                    scenesContainer.innerHTML = '';
+
+                    // Display each scene
+                    data.scenes.forEach((scene, index) => {
+                        const sceneElement = document.createElement('div');
+                        sceneElement.className = 'bg-gray-50 p-6 rounded-lg';
+                        
+                        sceneElement.innerHTML = `
+                            <h3 class="text-xl font-semibold mb-2 text-gray-700">Scene ${scene.scene_number}</h3>
+                            <p class="text-gray-600 mb-4">${scene.scene_setting}</p>
+                            <div class="video-container mb-4">
+                                <video controls class="w-full h-full">
+                                    <source src="${scene.video_url}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            <div class="flex justify-center">
+                                <a href="${scene.download_url}" 
+                                   class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-200">
+                                    Download Scene ${scene.scene_number}
+                                </a>
+                            </div>
+                        `;
+                        
+                        scenesContainer.appendChild(sceneElement);
+                    });
                     
                     document.getElementById('result').classList.add('active');
                 } else {

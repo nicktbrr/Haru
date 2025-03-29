@@ -1,38 +1,38 @@
 {
   "song_analysis": {
-    "title": "Lo-fi Girl",
+    "title": "Lofi Study Session",
     "artist": "Unknown",
     "genre": "Lo-fi Hip-Hop",
-    "tempo_bpm": "90",
-    "mood": "Chill, Relaxed, Reflective",
-    "lyrical_themes": "Daily hustle, overcoming obstacles, staying true to oneself, self-worth",
-    "instrumentation": "Drums, bass, sampled melody (likely piano or keyboard), vocal samples",
-    "character_description": "The main character is a stylish young woman with long purple hair, wearing a graphic tee and high-waisted jeans."
+    "tempo_bpm": "75",
+    "mood": "Chill, Relaxed, Nostalgic",
+    "lyrical_themes": "N/A (instrumental)",
+    "instrumentation": "Drums, Piano, Synthesizer, Bass",
+    "character_description": "A young woman with long, flowing auburn hair and vintage, oversized sweater and jeans, sits at a desk."
   },
   "scenes": [
     {
       "scene_number": 1,
-      "scene_setting": "Rooftop overlooking a bustling city at sunset",
-      "video_prompt": "A young woman with long purple hair sits on the edge of a rooftop at sunset, overlooking a vibrant city. She's wearing a graphic tee and high-waisted jeans. The city lights begin to twinkle as the sun dips below the horizon. She bobs her head in time to the music, lost in thought.",
-      "image_prompt": "Young woman with long purple hair sitting on a rooftop, vibrant city sunset in the background, contemplative expression. Synthwave vaporwave color palette, digital painting style.",
-      "scene_description": "The character reflects on her day while overlooking the city.",
-      "action": "Sitting, contemplating, head bobbing to the music"
+      "scene_setting": "Cozy bedroom, bathed in the warm glow of a sunset. Bookshelves line the walls, filled with well-worn paperbacks. A vintage record player sits in the corner.",
+      "video_prompt": "A young woman sits at a desk, illuminated by the warm light of a sunset filtering through the window. She's writing in a journal, occasionally pausing to sip from a steaming mug. Dust motes dance in the sunbeams. Close-up on her hand as she turns a page, revealing sketches and handwritten notes. The camera slowly pans across the room, revealing details like a half-finished drawing, a stack of records, and a sleeping cat curled up on a windowsill. The warm colors and soft lighting evoke a feeling of nostalgia and peaceful creativity. The video should loop seamlessly.",
+      "image_prompt": "Close-up shot of a young woman's hand writing in a journal by the warm light of a sunset in a cozy bedroom, filled with books and records. Dust motes dance in the sunbeams, vintage record player in the background. In the style of Edward Hopper.",
+      "scene_description": "The opening scene establishes the character and her environment. It focuses on the simple act of writing and the peaceful atmosphere of her room.",
+      "action": "Writing, sipping, pausing to think."
     },
     {
       "scene_number": 2,
-      "scene_setting": "A cozy, cluttered bedroom with fairy lights and posters",
-      "video_prompt": "The same young woman is now in her bedroom, surrounded by fairy lights, posters, and stacks of books. She's sitting at her desk, working on a laptop, with headphones on. A cat jumps onto the desk and rubs against her arm. She smiles and pets the cat before returning to her work.",
-      "image_prompt": "Cozy bedroom interior, fairy lights, posters, young woman at desk with laptop and cat, warm color palette. Synthwave vaporwave color palette, digital painting style.",
-      "scene_description": "The character is working on her laptop in a comfortable home environment, with a cat providing a moment of levity.",
-      "action": "Working on laptop, petting cat"
+      "scene_setting": "Rainy city street at night, viewed through a window.",
+      "video_prompt": "The camera focuses on raindrops racing down a windowpane. A blurry cityscape is visible in the background, with neon lights reflecting off the wet streets. The scene alternates between close-ups of the water droplets and wider shots of the city lights. Inside, the young woman is silhouetted against the window, lost in thought. Her face is obscured by shadows. She drums her fingers on the window sill. The scene has a melancholic and introspective mood.",
+      "image_prompt": "Raindrops racing down a windowpane at night, blurry cityscape with neon lights reflecting off wet streets in the background, silhouette of a young woman standing by the window, lost in thought, melancholic mood. In the style of Edward Hopper.",
+      "scene_description": "This scene introduces a sense of isolation and introspection, contrasting the cozy interior with the bustling city outside.",
+      "action": "Watching the rain, drumming fingers, lost in thought."
     },
     {
       "scene_number": 3,
-      "scene_setting": "Nighttime city street with neon lights and light rain",
-      "video_prompt": "The young woman walks down a nighttime city street, the neon lights reflecting off the wet pavement. Light rain falls. She's holding an umbrella and listening to music on her headphones, a slight smile on her face. She passes a street artist creating a mural.",
-      "image_prompt": "Nighttime city street, neon lights reflecting on wet pavement, light rain, young woman with umbrella and headphones, street art mural in background. Synthwave vaporwave color palette, digital painting style.",
-      "scene_description": "The character immerses herself in the vibrant energy of the city at night, finding beauty in the rain.",
-      "action": "Walking, listening to music, observing street art"
+      "scene_setting": "The same cozy bedroom from Scene 1, but now it's night. The only light source is a desk lamp.",
+      "video_prompt": "The woman is now working on a computer, illuminated by the soft glow of a desk lamp. She is wearing headphones. Code scrolls on the screen. Close-up on her face shows concentration and determination. Quick cuts to her hands typing, lines of code, and a steaming mug of coffee. The scene has a focused and productive atmosphere. The camera slowly zooms out, revealing more of the room and emphasizing the feeling of being absorbed in work.",
+      "image_prompt": "Young woman working on a computer in a cozy bedroom at night, illuminated by the soft glow of a desk lamp, headphones on, focused expression, coding on screen, in the style of Edward Hopper.",
+      "scene_description": "This scene shows the character engaged in a different creative activity, highlighting her focus and dedication.",
+      "action": "Coding, typing, listening to music, drinking coffee."
     }
   ]
 }

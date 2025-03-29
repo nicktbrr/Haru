@@ -6,7 +6,7 @@ from typing import Optional
 import tempfile
 from pathlib import Path
 
-from google import genai
+import google.generativeai as genai
 from google.generativeai import GenerativeModel
 
 from lumaai import LumaAI
@@ -116,6 +116,7 @@ class GeminiMusicAnalyzer:
         2. Within those 6 sections the mood of the music. 
         3. Keep a consistent description of any characters or common locations. 
         4. Vivid scenery depictions that match the music. 
+        Limit any response to 4000 Characters or less. 
         """
 
         prompt = prompt_template or default_prompt
@@ -163,11 +164,12 @@ class GeminiMusicAnalyzer:
 
 class LumaAIConnector:
     """Class to generate a Video from LumaAI."""
+
     def __init__(self):
         """Initialize the Video Generator using LumaAI."""
         self.luma = LumaAI()
 
-    def generate_video(self,prompt:str):
+    def generate_video(self, prompt: str):
         """Uses LumaAI to generate videos based on a prompt.
 
         Args:
@@ -177,16 +179,10 @@ class LumaAIConnector:
             RuntimeError: Raises an error if a video can not be generated.
 
         Returns:
-            URL: URL to the video file. 
+            URL: URL to the video file.
         """
         generation = self.luma.generations.create(
             prompt=prompt,
-            keyframes={
-                "frame0": {
-                    "type": "generation",
-                    "prompt": prompt,
-                }
-            },
         )
         completed = False
         while not completed:
@@ -194,11 +190,44 @@ class LumaAIConnector:
             if generation.state == "completed":
                 completed = True
             elif generation.state == "failed":
-                raise RuntimeError(f"Generation failed: {generation.failure_reason}")
+                raise RuntimeError(
+                    f"Generation failed: {generation.failure_reason}"
+                )
             print("Dreaming")
             time.sleep(3)
-        
+
         return generation.assets.video
+
+
+def generate_video(prompt: str):
+    """Uses LumaAI to generate videos based on a prompt.
+
+    Args:
+        prompt (str): Description of what kind of video to generate.
+
+    Raises:
+        RuntimeError: Raises an error if a video can not be generated.
+
+    Returns:
+        URL: URL to the video file.
+    """
+    luma = LumaAI()
+    generation = luma.generations.create(
+        prompt=prompt,
+    )
+    completed = False
+    while not completed:
+        generation = luma.generations.get(id=generation.id)
+        if generation.state == "completed":
+            completed = True
+        elif generation.state == "failed":
+            raise RuntimeError(
+                f"Generation failed: {generation.failure_reason}"
+            )
+        print("Dreaming")
+        time.sleep(3)
+
+    return generation.assets.video
 
 
 if __name__ == "__main__":
@@ -208,7 +237,7 @@ if __name__ == "__main__":
         music_file_path = "TEMP_MUSIC_PATH"
         description = analyzer.describe_music(music_file_path)
         LumaAI = LumaAIConnector()
-        video_url = LumaAI.generate_video(prompt=description),
+        video_url = (LumaAI.generate_video(prompt=description),)
         # print(description)
     except Exception as e:
         logger.error(f"Error in main: {e}")

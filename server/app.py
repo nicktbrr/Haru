@@ -22,7 +22,8 @@ from lumaai import LumaAI
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16MB max file size
 app.config["UPLOAD_FOLDER"] = tempfile.gettempdir()
-app.config["VIDEO_FOLDER"] = os.path.join(app.config["UPLOAD_FOLDER"], "videos")
+app.config["VIDEO_FOLDER"] = os.path.join(
+    app.config["UPLOAD_FOLDER"], "assets/videos")
 
 # Create video folder if it doesn't exist
 os.makedirs(app.config["VIDEO_FOLDER"], exist_ok=True)

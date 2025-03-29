@@ -17,7 +17,7 @@ load_dotenv()
 client = genai.Client(api_key=os.environ.get("GEMINI_KEY"))
 
 # Upload file
-myfile = client.files.upload(file='./Lofi Girl.mp3')
+myfile = client.files.upload(file='./assets/music/Lofi Girl.mp3')
 
 # Generate analysis
 music_video_scenes = generate_music_video_analysis(myfile, client)
@@ -34,7 +34,7 @@ if music_video_scenes:
         image_url = test_image_generation(client, scene.image_prompt)
         response = requests.get(image_url, stream=True)
 
-        with open(f'image_{i}.jpg', 'wb') as file:
+        with open(f'./assets/images/image_{i}.jpg', 'wb') as file:
             file.write(response.content)
         print(f"File downloaded as image_{i}.jpg")
         print(f"Scene {scene.scene_number}: {scene.scene_setting}")
@@ -64,7 +64,7 @@ if music_video_scenes:
         video_url = video_generation(client, scene.video_prompt, image_url)
         response = requests.get(video_url, stream=True)
 
-        with open(f'video_{i}.mp4', 'wb') as file:
+        with open(f'./assets/videos/video_{i}.mp4', 'wb') as file:
             file.write(response.content)
         print(f"Video downloaded as video_{i}.mp4")
         print(f"Scene {scene.scene_number}: {scene.scene_setting}")

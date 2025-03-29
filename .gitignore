@@ -8,6 +8,7 @@ image_*.jpg
 *.so
 
 # Distribution / packaging
+.DS_Store
 .Python
 build/
 develop-eggs/

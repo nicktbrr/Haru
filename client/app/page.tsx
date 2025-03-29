@@ -1,10 +1,13 @@
-import AudioUploader from "@/components/audio-uploader"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import VideoGenerator from "@/components/video-generator"
-import VideoPreview from "@/components/video-preview"
-import { CherryBlossom } from "@/components/cherry-blossom"
-import { CherryBranchLeft, CherryBranchRight } from "@/components/cherry-branches"
-import { FallingPetals } from "@/components/falling-petals"
+import AudioUploader from "@/components/audio-uploader";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import VideoGenerator from "@/components/video-generator";
+import VideoPreview from "@/components/video-preview";
+import { CherryBlossom } from "@/components/cherry-blossom";
+import {
+  CherryBranchLeft,
+  CherryBranchRight,
+} from "@/components/cherry-branches";
+import { FallingPetals } from "@/components/falling-petals";
 
 export default function Home() {
   return (
@@ -24,14 +27,21 @@ export default function Home() {
       <header className="w-full py-12 px-4 sm:px-6 lg:px-8 flex justify-center relative z-10">
         <div className="text-center">
           <div className="flex items-center justify-center mb-3">
-            <CherryBlossom className="w-12 h-12 text-pink-500 mr-3" variant="full" />
+            <CherryBlossom
+              className="w-12 h-12 text-pink-500 mr-3"
+              variant="full"
+            />
             <h1 className="text-5xl md:text-6xl font-bold text-pink-800">
               Haru <span className="text-pink-500">春</span>
             </h1>
-            <CherryBlossom className="w-12 h-12 text-pink-500 ml-3" variant="full" />
+            <CherryBlossom
+              className="w-12 h-12 text-pink-500 ml-3"
+              variant="full"
+            />
           </div>
           <p className="text-lg font-medium text-pink-700 max-w-2xl">
-            Transform your music into beautiful videos inspired by cherry blossoms
+            Transform your music into beautiful videos inspired by cherry
+            blossoms
           </p>
         </div>
       </header>
@@ -75,7 +85,10 @@ export default function Home() {
 
             <TabsContent value="preview" className="space-y-4">
               <div className="grid grid-cols-1 gap-8">
-                <VideoPreview title="Lyrics Background Video" videoType="lyrics" />
+                <VideoPreview
+                  title="Lyrics Background Video"
+                  videoType="lyrics"
+                />
                 <VideoPreview title="Music Video" videoType="music" />
               </div>
             </TabsContent>
@@ -90,13 +103,24 @@ export default function Home() {
       {/* Footer */}
       <footer className="w-full py-6 px-4 text-center text-pink-700 bg-white/70 backdrop-filter backdrop-blur-sm z-10 border-t border-pink-100 mt-8">
         <div className="flex items-center justify-center mb-2">
-          <CherryBlossom className="w-6 h-6 text-pink-400 mx-1" variant="full" />
-          <CherryBlossom className="w-6 h-6 text-pink-400 mx-1" variant="simple" />
-          <CherryBlossom className="w-6 h-6 text-pink-400 mx-1" variant="petal" />
+          <CherryBlossom
+            className="w-6 h-6 text-pink-400 mx-1"
+            variant="full"
+          />
+          <CherryBlossom
+            className="w-6 h-6 text-pink-400 mx-1"
+            variant="simple"
+          />
+          <CherryBlossom
+            className="w-6 h-6 text-pink-400 mx-1"
+            variant="petal"
+          />
         </div>
-        <p className="font-medium">© {new Date().getFullYear()} Haru Video Generator. All rights reserved.</p>
+        <p className="font-medium">
+          © {new Date().getFullYear()} Haru Video Generator. All rights
+          reserved.
+        </p>
       </footer>
     </div>
-  )
+  );
 }
-

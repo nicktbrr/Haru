@@ -1,38 +1,38 @@
 {
   "song_analysis": {
-    "title": "Lo-Fi Girl",
+    "title": "Echoes of the City",
     "artist": "Unknown",
-    "genre": "Lo-Fi Hip Hop",
-    "tempo_bpm": "75",
-    "mood": "Chill, relaxed, laid-back",
-    "lyrical_themes": "Urban life, chill vibes, perseverance, staying true to yourself",
-    "instrumentation": "Drums, keyboard, bass, sampled sounds",
-    "character_description": "The main character, a young woman, embodies urban coolness with long, wavy black hair, stylish streetwear, and an air of quiet confidence."
+    "genre": "Lo-fi Hip-Hop/Chillhop",
+    "tempo_bpm": "85",
+    "mood": "Reflective, melancholic, calm",
+    "lyrical_themes": "Loneliness, urban life, introspection (assuming based on genre)",
+    "instrumentation": "Lo-fi drums, piano, synth pads, subtle bass",
+    "character_description": "A young woman with dark, shoulder-length hair, wearing an oversized hoodie and jeans, appears lost in thought."
   },
   "scenes": [
     {
       "scene_number": 1,
-      "scene_setting": "Rooftop overlooking a cityscape at sunset.",
-      "video_prompt": "A young woman walks to the edge of a rooftop overlooking a vibrant city skyline at sunset. She's wearing headphones and nodding to the music. The camera slowly zooms in on her face as she smiles faintly.",
-      "image_prompt": "Young woman with long black hair and stylish streetwear standing on a rooftop overlooking a cityscape at sunset, wearing headphones, cinematic style, dramatic lighting, deep blacks, focus on the girl with a slight smile.",
-      "scene_description": "The character is enjoying the music and the view, a moment of peace amidst the urban hustle. She's reflective and present in the moment.",
-      "action": "Walking, looking at the view, listening to music, smiling."
+      "scene_setting": "Rainy city street at night, neon lights reflecting on wet pavement.",
+      "video_prompt": "A young woman walks slowly down a rainy city street at night. Neon signs cast colorful reflections on the wet pavement. She looks down, lost in thought. The camera focuses on her face, then pans up to show the cityscape blurred by the rain. Slow motion used for emphasis.",
+      "image_prompt": "Cinematic still of a woman walking on a rainy city street at night, neon lights reflecting. Focus on her contemplative face, rain blurring the background. Cinematic style, dramatic lighting, shallow depth of field.",
+      "scene_description": "The video opens with a shot of a lone figure walking through a rainy city street. The woman is lost in thought, and the rain seems to mirror her melancholic mood.",
+      "action": "Walking slowly and reflectively through the rain."
     },
     {
       "scene_number": 2,
-      "scene_setting": "A late-night convenience store.",
-      "video_prompt": "Inside a brightly lit 24-hour convenience store, the same young woman browses the aisles, picking up a drink and a snack. The store is mostly empty, except for a tired-looking cashier. Close-up shot of her hands selecting items.",
-      "image_prompt": "Close up of a young woman's hands choosing a drink and snack in a convenience store, illuminated by bright overhead lights, cinematic style, realistic textures, shallow depth of field, tired looking cashier in the background, grainy.",
-      "scene_description": "A mundane but relatable scene, emphasizing the urban setting. It captures the late-night atmosphere and sense of anonymity.",
-      "action": "Browsing, selecting items, interacting briefly with the cashier."
+      "scene_setting": "Inside a dimly lit, smoky cafe with large windows overlooking the city.",
+      "video_prompt": "The woman sits alone at a table in a dimly lit cafe. She sips coffee and gazes out the window at the city lights. The cafe is filled with soft ambient light and a haze of smoke. Close-up on her eyes, reflecting the city lights.",
+      "image_prompt": "Cinematic image of a woman sitting alone in a smoky cafe, looking out the window at the city lights. Soft, diffused lighting, shallow depth of field, focus on her eyes. Strong contrast between interior darkness and the bright city lights. Cinematic style.",
+      "scene_description": "Moving inside, the character finds herself in a quiet cafe. She looks out at the city lights, suggesting a sense of longing and disconnection.",
+      "action": "Sitting, sipping coffee, and gazing out the window."
     },
     {
       "scene_number": 3,
-      "scene_setting": "A graffiti-covered alleyway.",
-      "video_prompt": "The young woman walks down a graffiti-covered alleyway at night, the only light coming from a flickering streetlamp. She walks with a confident stride, her silhouette emphasized by the shadows. Camera follows her from behind.",
-      "image_prompt": "Silhouette of a young woman walking down a graffiti-covered alleyway at night, lit by a single flickering streetlamp, cinematic style, strong shadows, vibrant graffiti colors contrasting with dark tones, mysterious.",
-      "scene_description": "This scene adds a touch of edginess and mystery. The graffiti represents the urban environment and the character's connection to it.",
-      "action": "Walking confidently, being aware of her surroundings."
+      "scene_setting": "Rooftop overlooking the city at dawn, mist hanging in the air.",
+      "video_prompt": "The woman stands on a rooftop overlooking the city as dawn breaks. Mist hangs in the air. She closes her eyes and takes a deep breath. The camera pans out to show the vast cityscape awakening as the sun rises.",
+      "image_prompt": "Cinematic still of a woman standing on a rooftop at dawn overlooking a misty city. Soft, ethereal light, pastel colors in the sky. Wide shot emphasizing the cityscape. Cinematic style, focus on atmosphere and scale.",
+      "scene_description": "As the sun begins to rise, the woman goes to a rooftop and looks out over the city. There she finds a small peace and calmnes.",
+      "action": "Standing still, breathing deeply, watching the sunrise."
     }
   ]
 }

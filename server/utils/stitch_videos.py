@@ -194,45 +194,61 @@ def get_video_files_from_directory(directory):
         return []
 
 
-def main():
-    # Hardcoded paths for testing
-    video_dir = Path('assets/videos')
-    output_path = Path('output.mp4')
-    audio_file = Path('assets/music/1743286897.723132.mp3')
-    normalize = False  # Set to True if you want to normalize video resolutions
+def merge_videos_with_audio(video_dir, output_path, audio_file=None, normalize=True):
+    """
+    Merge all videos in a directory with optional audio and normalization.
 
-    # Convert to absolute paths
-    video_dir = video_dir.resolve()
-    output_path = output_path.resolve()
-    audio_file = audio_file.resolve() if audio_file else None
+    Args:
+        video_dir (str): Directory containing video files
+        output_path (str): Path where the final video will be saved
+        audio_file (str, optional): Path to audio file to add to the video
+        normalize (bool): Whether to normalize video resolutions
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    video_dir = Path(video_dir).resolve()
+    output_path = Path(output_path).resolve()
+    audio_file = Path(audio_file).resolve() if audio_file else None
 
     # Validate input directory
     if not video_dir.exists() or not video_dir.is_dir():
         print(
             f"Error: Video directory '{video_dir}' does not exist or is not a directory")
-        sys.exit(1)
+        return False
 
     # Get video files from directory
     video_files = get_video_files_from_directory(video_dir)
     if not video_files:
         print(f"Error: No video files found in directory '{video_dir}'")
-        sys.exit(1)
+        return False
 
     if audio_file and not audio_file.exists():
         print(f"Warning: Audio file '{audio_file}' does not exist")
+        audio_file = None
 
     # Create output directory if it doesn't exist
     output_dir = output_path.parent
     if not output_dir.exists():
         output_dir.mkdir(parents=True)
 
-    # Perform concatenation
-    print("Starting video concatenation...")
+    # Perform concatenation with all features
+    print("Starting video processing...")
     if concatenate_videos(video_files, output_path, audio_file, normalize):
-        print(f"Successfully created concatenated video: {output_path}")
+        print(f"Successfully created merged video: {output_path}")
+        return True
     else:
-        print("Video concatenation failed")
-        sys.exit(1)
+        print("Video processing failed")
+        return False
+
+
+def main():
+    # Example usage of the new method
+    video_dir = Path('assets/videos')
+    output_path = Path('output.mp4')
+    audio_file = Path('assets/music/1743286897.723132.mp3')
+
+    merge_videos_with_audio(video_dir, output_path, audio_file, normalize=True)
 
 
 if __name__ == "__main__":

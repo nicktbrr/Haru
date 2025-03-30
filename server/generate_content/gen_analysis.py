@@ -4,7 +4,7 @@ from typing import List
 import re
 import json
 from pydantic import ValidationError
-from prompts import SONG_DESC_SYSTEM_PROMPT, SONG_DESC_USER_PROMPT
+from .prompts import SONG_DESC_SYSTEM_PROMPT, SONG_DESC_USER_PROMPT
 
 
 class SongAnalysis(BaseModel):

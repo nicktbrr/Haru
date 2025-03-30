@@ -1,19 +1,20 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 import os
 import time
-from werkzeug.utils import secure_filename
-import json
-from google import genai
-import requests
-from lumaai import LumaAI
-import concurrent.futures
-from generate_content.gen_analysis import generate_music_video_analysis
-from generate_content.gen_image import test_image_generation
-from generate_content.gen_video import video_generation
-from utils.stitch_videos import merge_videos_with_audio
-from dotenv import load_dotenv
 import shutil
+import requests
+import concurrent.futures
+from flask_cors import CORS
+from flask import Flask, request, jsonify
+
+from google import genai
+from lumaai import LumaAI
+
+from utils.stitch_videos import merge_videos_with_audio
+from generate_content.gen_video import video_generation
+from generate_content.gen_image import test_image_generation
+from generate_content.gen_analysis import generate_music_video_analysis
+from dotenv import load_dotenv
+
 
 # Load environment variables from .env file
 load_dotenv()

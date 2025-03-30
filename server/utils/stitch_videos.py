@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 import os
-import sys
-import argparse
-import subprocess
-import tempfile
-from pathlib import Path
 import json
+import tempfile
+import subprocess
+
+from pathlib import Path
 
 
 def create_concat_file(video_files, temp_dir):

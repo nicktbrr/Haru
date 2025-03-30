@@ -1,14 +1,17 @@
-from google import genai
 import os
 import time
-from dotenv import load_dotenv
-from lumaai import LumaAI
 import requests
 import concurrent.futures
+
+from google import genai
+from lumaai import LumaAI
+from dotenv import load_dotenv
+
 # Import the function from your module
-from gen_analysis import generate_music_video_analysis
-from gen_image import test_image_generation
 from gen_video import video_generation
+from gen_image import test_image_generation
+from gen_analysis import generate_music_video_analysis
+
 
 
 start_time = time.time()

@@ -37,8 +37,15 @@ export default function VideoGenerator() {
     setError(null);
 
     try {
+      console.log("Sending video format:", videoFormat);
       const response = await fetch("http://127.0.0.1:5000/generate", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          format: videoFormat,
+        }),
       });
 
       if (!response.ok) {
@@ -47,12 +54,10 @@ export default function VideoGenerator() {
       }
 
       const data = await response.json();
-
-      console.log(data);
-      setGenerated(true);
       setVideoData(data);
+      setGenerated(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to generate video");
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setGenerating(false);
     }

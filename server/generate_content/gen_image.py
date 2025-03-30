@@ -1,14 +1,14 @@
 import time
 
 
-def test_image_generation(client, prompt):
+def test_image_generation(client, prompt, aspect_ratio="9:16"):
     """Test image generation and return the image URL"""
     print("Starting image generation test...")
 
     # Create an image generation
     generation = client.generations.image.create(
         prompt=prompt,
-        aspect_ratio="16:9",
+        aspect_ratio=aspect_ratio,
         model="photon-1"
     )
 

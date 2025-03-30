@@ -74,8 +74,7 @@ def upload_music():
             session_id = str(time.time())
 
             unique_filename = f"{session_id}{file_ext}"
-            filepath = os.path.join(
-                app.config["MUSIC_FOLDER"], unique_filename)
+            filepath = os.path.join(app.config["MUSIC_FOLDER"], unique_filename)
             file.save(filepath)
 
             return jsonify(
@@ -100,8 +99,22 @@ def generate_video():
                         "error": "No music files found in the assets/music directory"
                     }
                 ),
-                404,
+                400,
             )
+
+        # Get the video format from the request
+        data = request.get_json()
+        video_format = data.get("format", "youtube")
+        print(f"Received video format from frontend: {video_format}")
+
+        # Map video format to aspect ratio
+        aspect_ratio_map = {
+            "youtube": "16:9",
+            "horizontal": "4:3",
+            "vertical": "9:16",
+        }
+        aspect_ratio = aspect_ratio_map.get(video_format, "16:9")
+        print(f"Mapped to aspect ratio: {aspect_ratio}")
 
         # Get the most recent file based on modification time
         latest_file = max(
@@ -114,13 +127,20 @@ def generate_video():
         try:
             client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
             audio_file_path = os.path.join(
-                app.config["MUSIC_FOLDER"], latest_file)
+                app.config["MUSIC_FOLDER"], latest_file
+            )
             music_video_scenes = generate_music_video_analysis(
-                audio_file_path, client)
+                audio_file_path, client
+            )
             print(music_video_scenes)
         except Exception as e:
             print(f"Error generating music video scenes: {str(e)}")
-            return jsonify({"error": f"Error generating music video scenes: {str(e)}"}), 500
+            return (
+                jsonify(
+                    {"error": f"Error generating music video scenes: {str(e)}"}
+                ),
+                500,
+            )
 
         print(music_video_scenes)
 
@@ -129,24 +149,27 @@ def generate_video():
 
         def generate_and_save_image(scene_data):
             i, scene = scene_data
-            image_url = test_image_generation(client, scene.image_prompt)
+            image_url = test_image_generation(client, scene.image_prompt,aspect_ratio)
             response = requests.get(image_url, stream=True)
 
-            with open(f'./assets/images/image_{i}.jpg', 'wb') as file:
+            with open(f"./assets/images/image_{i}.jpg", "wb") as file:
                 file.write(response.content)
             print(f"File downloaded as image_{i}.jpg")
             return (i, image_url)
 
         # Create a list of tuples containing index and scene data
-        scene_data = [(i, scene)
-                      for i, scene in enumerate(music_video_scenes.scenes)]
+        scene_data = [
+            (i, scene) for i, scene in enumerate(music_video_scenes.scenes)
+        ]
 
         # Use ThreadPoolExecutor for parallel processing
         image_urls = {}  # Dictionary to store index -> image_url mapping
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
             # Submit all tasks and wait for them to complete
-            futures = [executor.submit(generate_and_save_image, data)
-                       for data in scene_data]
+            futures = [
+                executor.submit(generate_and_save_image, data)
+                for data in scene_data
+            ]
             # Collect results as they complete
             for future in concurrent.futures.as_completed(futures):
                 i, url = future.result()
@@ -160,10 +183,11 @@ def generate_video():
             image_url = image_urls[i]
             try:
                 video_url = video_generation(
-                    client, scene.video_prompt, image_url)
+                    client, scene.video_prompt, image_url, aspect_ratio
+                )
                 response = requests.get(video_url, stream=True)
 
-                with open(f'./assets/videos/video_{i}.mp4', 'wb') as file:
+                with open(f"./assets/videos/video_{i}.mp4", "wb") as file:
                     file.write(response.content)
                 print(f"Video downloaded as video_{i}.mp4")
                 return video_url
@@ -174,13 +198,18 @@ def generate_video():
         # Use ThreadPoolExecutor for parallel video processing
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
             # Submit all video generation tasks and wait for them to complete
-            futures = [executor.submit(generate_and_save_video, data)
-                       for data in scene_data]
+            futures = [
+                executor.submit(generate_and_save_video, data)
+                for data in scene_data
+            ]
             try:
                 concurrent.futures.wait(futures)
             except Exception as e:
                 print(f"Error in video generation: {str(e)}")
-                return jsonify({"error": f"Error generating videos: {str(e)}"}), 500
+                return (
+                    jsonify({"error": f"Error generating videos: {str(e)}"}),
+                    500,
+                )
 
         print("All videos generated successfully!")
 
@@ -192,7 +221,7 @@ def generate_video():
             video_dir=app.config["VIDEO_FOLDER"],
             output_path=output_file,
             audio_file=audio_file_path,
-            normalize=True
+            normalize=True,
         )
 
         if not success:
@@ -203,7 +232,7 @@ def generate_video():
                 "message": "Found latest music file",
                 "filename": latest_file,
                 "filepath": audio_file_path,
-                "output_file": output_file
+                "output_file": output_file,
             }
         )
 

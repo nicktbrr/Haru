@@ -5,13 +5,14 @@ import argparse
 import subprocess
 import tempfile
 from pathlib import Path
+import json
 
 
 def create_concat_file(video_files, temp_dir):
     """Create a temporary file listing videos to concatenate."""
     concat_file_path = os.path.join(temp_dir, "concat_list.txt")
 
-    with open(concat_file_path, 'w') as f:
+    with open(concat_file_path, "w") as f:
         for video_file in video_files:
             # Convert to absolute path and escape single quotes for ffmpeg
             abs_path = os.path.abspath(str(video_file))
@@ -24,161 +25,139 @@ def create_concat_file(video_files, temp_dir):
 def get_video_info(video_path):
     """Get duration and other info about the video file."""
     cmd = [
-        'ffprobe',
-        '-v', 'error',
-        '-select_streams', 'v:0',
-        '-show_entries', 'stream=width,height,duration,r_frame_rate',
-        '-of', 'csv=p=0',
-        str(video_path)
+        "ffprobe",
+        "-v",
+        "error",
+        "-select_streams",
+        "v:0",
+        "-show_entries",
+        "stream=width,height,duration,r_frame_rate",
+        "-of",
+        "json",  # Use JSON format for more reliable parsing
+        str(video_path),
     ]
 
     try:
-        output = subprocess.check_output(
-            cmd).decode('utf-8').strip().split(',')
-        width, height = output[0], output[1]
+        output = subprocess.check_output(cmd).decode("utf-8")
+        data = json.loads(output)
 
-        # Handle different duration formats
-        try:
-            duration = float(output[2])
-        except ValueError:
-            # If duration is not available, try alternative method
-            alt_cmd = [
-                'ffprobe',
-                '-v', 'error',
-                '-show_entries', 'format=duration',
-                '-of', 'csv=p=0',
-                str(video_path)
+        # Extract video stream information
+        stream = data["streams"][0]
+        width = stream.get("width")
+        height = stream.get("height")
+
+        if not width or not height:
+            raise ValueError(f"Could not get dimensions for {video_path}")
+
+        # Get duration from format if not in stream
+        duration = stream.get("duration")
+        if not duration:
+            duration_cmd = [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-of",
+                "json",
+                str(video_path),
             ]
-            duration = float(subprocess.check_output(
-                alt_cmd).decode('utf-8').strip())
+            duration_data = json.loads(
+                subprocess.check_output(duration_cmd).decode("utf-8")
+            )
+            duration = duration_data["format"]["duration"]
 
-        return {
-            'width': width,
-            'height': height,
-            'duration': duration
-        }
-    except (subprocess.CalledProcessError, IndexError):
-        print(f"Error: Could not get information for {video_path}")
+        return {"width": width, "height": height, "duration": float(duration)}
+    except (
+        subprocess.CalledProcessError,
+        json.JSONDecodeError,
+        KeyError,
+        ValueError,
+    ) as e:
+        print(f"Error getting video info for {video_path}: {str(e)}")
         return None
 
 
-def concatenate_videos(video_files, output_path, audio_file=None, normalize_resolution=False):
-    """Concatenate videos and optionally add audio."""
-    if not video_files:
-        print("Error: No video files provided")
-        return False
-
-    with tempfile.TemporaryDirectory() as temp_dir:
-        # Create a concat file listing all videos
+def concatenate_videos(
+    video_files, output_path, audio_file=None, normalize_resolution=False
+):
+    """Concatenate multiple videos into one, optionally adding audio."""
+    temp_dir = tempfile.mkdtemp()
+    try:
+        # Create concat file
         concat_file = create_concat_file(video_files, temp_dir)
 
-        # Get info of first video to use as reference if normalizing
-        if normalize_resolution and len(video_files) > 1:
-            video_info = get_video_info(video_files[0])
-            if video_info:
-                target_width = video_info['width']
-                target_height = video_info['height']
+        # Get dimensions of all videos
+        video_info_list = [get_video_info(v) for v in video_files]
+        if not all(video_info_list):
+            raise ValueError("Could not get video information for all files")
 
-                # Create normalized versions of all videos
-                normalized_videos = []
-                for i, video_file in enumerate(video_files):
-                    normalized_path = os.path.join(
-                        temp_dir, f"normalized_{i}.mp4")
-                    cmd = [
-                        'ffmpeg', '-y', '-i', str(video_file),
-                        '-vf', f'scale={target_width}:{target_height}:force_original_aspect_ratio=decrease,pad={target_width}:{target_height}:(ow-iw)/2:(oh-ih)/2',
-                        '-c:v', 'libx264', '-c:a', 'aac',
-                        normalized_path
-                    ]
+        # Use the dimensions of the first video as the target
+        target_width = int(video_info_list[0]["width"])
+        target_height = int(video_info_list[0]["height"])
 
-                    try:
-                        subprocess.run(cmd, check=True, stderr=subprocess.PIPE)
-                        normalized_videos.append(normalized_path)
-                    except subprocess.CalledProcessError as e:
-                        print(
-                            f"Error normalizing video {video_file}: {e.stderr.decode('utf-8')}")
-                        return False
+        # Build ffmpeg command
+        cmd = ["ffmpeg", "-y"]
 
-                # Create new concat file with normalized videos
-                video_files = normalized_videos
-                concat_file = create_concat_file(video_files, temp_dir)
+        # Add input files
+        cmd.extend(["-f", "concat", "-safe", "0", "-i", concat_file])
+        if audio_file:
+            cmd.extend(["-i", str(audio_file)])
 
-        # First concatenate videos without fades
-        temp_concat = os.path.join(temp_dir, "temp_concat.mp4")
-        concat_cmd = [
-            'ffmpeg', '-y',
-            '-f', 'concat',
-            '-safe', '0',
-            '-i', concat_file,
-            '-c', 'copy',
-            temp_concat
-        ]
+        # Add video filters to maintain aspect ratio
+        if normalize_resolution:
+            # Scale videos to match target dimensions while maintaining aspect ratio
+            scale_filter = f"scale={target_width}:{target_height}:force_original_aspect_ratio=decrease,pad={target_width}:{target_height}:(ow-iw)/2:(oh-ih)/2"
+            cmd.extend(["-vf", scale_filter])
 
-        try:
-            subprocess.run(concat_cmd, check=True, stderr=subprocess.PIPE)
-        except subprocess.CalledProcessError as e:
-            print(f"Error concatenating videos: {e.stderr.decode('utf-8')}")
-            return False
-
-        # Get duration of concatenated video
-        video_info = get_video_info(temp_concat)
-        if not video_info:
-            return False
-
-        duration = video_info['duration']
-        fade_duration = 1.0  # 1 second fade
-
-        # Apply fade in and fade out
-        fade_cmd = [
-            'ffmpeg', '-y',
-            '-i', temp_concat,
-            '-vf', f'fade=t=in:st=0:d={fade_duration},fade=t=out:st={duration-fade_duration}:d={fade_duration}',
-            '-c:a', 'copy'
-        ]
-
-        # If audio file is provided
-        if audio_file and os.path.exists(audio_file):
-            # First apply fades to video
-            temp_faded = os.path.join(temp_dir, "temp_faded.mp4")
-            try:
-                subprocess.run(fade_cmd + [temp_faded],
-                               check=True, stderr=subprocess.PIPE)
-            except subprocess.CalledProcessError as e:
-                print(f"Error applying fades: {e.stderr.decode('utf-8')}")
-                return False
-
-            # Then add audio
-            audio_cmd = [
-                'ffmpeg', '-y',
-                '-i', temp_faded,
-                '-i', audio_file,
-                '-filter_complex', f"[1:a]atrim=0:{duration},asetpts=PTS-STARTPTS[a]",
-                '-map', '0:v', '-map', '[a]',
-                '-c:v', 'copy', '-c:a', 'aac',
-                output_path
+        # Add output options with better quality settings
+        cmd.extend(
+            [
+                "-c:v",
+                "libx264",
+                "-preset",
+                "medium",
+                "-crf",
+                "23",
+                "-pix_fmt",
+                "yuv420p",
+                "-movflags",
+                "+faststart",  # Enable fast start for web playback
             ]
+        )
 
-            try:
-                subprocess.run(audio_cmd, check=True, stderr=subprocess.PIPE)
-                return True
-            except subprocess.CalledProcessError as e:
-                print(f"Error adding audio: {e.stderr.decode('utf-8')}")
-                return False
-        else:
-            # Just apply fades without audio
-            try:
-                subprocess.run(fade_cmd + [output_path],
-                               check=True, stderr=subprocess.PIPE)
-                return True
-            except subprocess.CalledProcessError as e:
-                print(f"Error applying fades: {e.stderr.decode('utf-8')}")
-                return False
+        # Add audio options if audio file is provided
+        if audio_file:
+            cmd.extend(
+                [
+                    "-c:a",
+                    "aac",
+                    "-b:a",
+                    "192k",
+                    "-shortest",  # Ensure video and audio lengths match
+                ]
+            )
+
+        cmd.append(str(output_path))
+
+        # Execute ffmpeg command with error handling
+        try:
+            subprocess.run(cmd, check=True, capture_output=True, text=True)
+            print(f"Successfully created merged video: {output_path}")
+        except subprocess.CalledProcessError as e:
+            print(f"FFmpeg error: {e.stderr}")
+            raise
+
+    finally:
+        # Clean up temporary files
+        if os.path.exists(concat_file):
+            os.remove(concat_file)
+        os.rmdir(temp_dir)
 
 
 def get_video_files_from_directory(directory):
     """Get all video files from a directory."""
-    video_extensions = {'.mp4', '.mov', '.avi',
-                        '.mkv', '.wmv', '.flv', '.webm'}
+    video_extensions = {".mp4", ".mov", ".avi", ".mkv", ".wmv", ".flv", ".webm"}
     video_files = []
 
     try:
@@ -194,59 +173,72 @@ def get_video_files_from_directory(directory):
         return []
 
 
-def merge_videos_with_audio(video_dir, output_path, audio_file=None, normalize=True):
-    """
-    Merge all videos in a directory with optional audio and normalization.
+def merge_videos_with_audio(
+    video_dir, output_path, audio_file=None, normalize=True
+):
+    """Merge all videos in a directory with optional audio."""
+    try:
+        # Get all video files from the directory
+        video_files = get_video_files_from_directory(video_dir)
+        if not video_files:
+            print("No video files found in directory")
+            return False
 
-    Args:
-        video_dir (str): Directory containing video files
-        output_path (str): Path where the final video will be saved
-        audio_file (str, optional): Path to audio file to add to the video
-        normalize (bool): Whether to normalize video resolutions
+        # Sort video files to ensure correct order
+        video_files.sort()
 
-    Returns:
-        bool: True if successful, False otherwise
-    """
-    video_dir = Path(video_dir).resolve()
-    output_path = Path(output_path).resolve()
-    audio_file = Path(audio_file).resolve() if audio_file else None
-
-    # Validate input directory
-    if not video_dir.exists() or not video_dir.is_dir():
-        print(
-            f"Error: Video directory '{video_dir}' does not exist or is not a directory")
-        return False
-
-    # Get video files from directory
-    video_files = get_video_files_from_directory(video_dir)
-    if not video_files:
-        print(f"Error: No video files found in directory '{video_dir}'")
-        return False
-
-    if audio_file and not audio_file.exists():
-        print(f"Warning: Audio file '{audio_file}' does not exist")
-        audio_file = None
-
-    # Create output directory if it doesn't exist
-    output_dir = output_path.parent
-    if not output_dir.exists():
-        output_dir.mkdir(parents=True)
-
-    # Perform concatenation with all features
-    print("Starting video processing...")
-    if concatenate_videos(video_files, output_path, audio_file, normalize):
-        print(f"Successfully created merged video: {output_path}")
+        # Concatenate videos and add audio if provided
+        concatenate_videos(
+            video_files,
+            output_path,
+            audio_file=audio_file,
+            normalize_resolution=normalize,
+        )
         return True
-    else:
-        print("Video processing failed")
+
+    except Exception as e:
+        print(f"Error merging videos: {str(e)}")
         return False
+
+
+def get_most_recent_audio_file(directory):
+    """Get the most recent audio file from a directory."""
+    audio_extensions = {".mp3", ".wav"}
+    audio_files = []
+
+    try:
+        for file in os.listdir(directory):
+            if os.path.splitext(file)[1].lower() in audio_extensions:
+                file_path = os.path.join(directory, file)
+                audio_files.append((file_path, os.path.getmtime(file_path)))
+
+        if not audio_files:
+            return None
+
+        # Sort by modification time, most recent first
+        audio_files.sort(key=lambda x: x[1], reverse=True)
+        return audio_files[0][0]
+    except Exception as e:
+        print(f"Error finding audio file: {e}")
+        return None
 
 
 def main():
-    # Example usage of the new method
-    video_dir = Path('assets/videos')
-    output_path = Path('output.mp4')
-    audio_file = Path('assets/music/1743286897.723132.mp3')
+    # Get the project root directory (2 levels up from this script)
+    script_dir = Path(__file__).resolve().parent
+    project_root = script_dir.parent.parent
+
+    # Use absolute paths
+    video_dir = project_root / "assets" / "videos"
+    output_path = project_root / "assets" / "output" / "output.mp4"
+    audio_file = project_root / "assets" / "music" / "1743302325.6031349.mp3"
+
+    # Create output directory if it doesn't exist
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    print(f"Video directory: {video_dir}")
+    print(f"Output path: {output_path}")
+    print(f"Audio file: {audio_file}")
 
     merge_videos_with_audio(video_dir, output_path, audio_file, normalize=True)
 

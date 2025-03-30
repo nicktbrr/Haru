@@ -22,6 +22,7 @@ Format response as this JSON:
 
 SONG_DESC_USER_PROMPT = f"""
 Create 5 video scenes with matching image prompts that:
+- For all scenes generate using Ultra Realistic Graphics. 
 - Reflect the song's energy (fast/intense songs get dynamic visuals; slow songs get calmer visuals)
 - Maintain ONE consistent artistic style throughout ALL scenes based on the song's mood
 - Include the chosen style explicitly in EVERY image prompt

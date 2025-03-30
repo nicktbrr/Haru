@@ -17,11 +17,18 @@ import {
   Sparkles,
 } from "lucide-react";
 import { CherryBlossom } from "./cherry-blossom";
+import VideoPreview from "./video-preview";
 
 type VideoFormat = "youtube" | "horizontal" | "vertical";
 type VideoType = "lyrics" | "music";
 
-export default function VideoGenerator() {
+interface VideoGeneratorProps {
+  onVideoGenerated: (url: string, type: VideoType) => void;
+}
+
+export default function VideoGenerator({
+  onVideoGenerated,
+}: VideoGeneratorProps) {
   const [videoType, setVideoType] = useState<VideoType>("lyrics");
   const [videoFormat, setVideoFormat] = useState<VideoFormat>("youtube");
   const [generating, setGenerating] = useState(false);
@@ -31,6 +38,7 @@ export default function VideoGenerator() {
   const [generated, setGenerated] = useState(false);
   const [videoData, setVideoData] = useState(null);
   const [error, setError] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
 
   const handleGenerate = async () => {
     setGenerating(true);
@@ -47,10 +55,12 @@ export default function VideoGenerator() {
       }
 
       const data = await response.json();
-
       console.log(data);
       setGenerated(true);
       setVideoData(data);
+      const url = data.videoUrl;
+      setVideoUrl(url);
+      onVideoGenerated(url, videoType);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to generate video");
     } finally {
@@ -60,6 +70,13 @@ export default function VideoGenerator() {
 
   return (
     <div className="space-y-8">
+      {videoUrl && (
+        <VideoPreview
+          title="Generated Video"
+          videoType={videoType}
+          videoUrl={videoUrl}
+        />
+      )}
       <div className="text-center relative">
         <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
           <CherryBlossom

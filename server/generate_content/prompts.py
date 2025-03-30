@@ -1,4 +1,11 @@
 SONG_DESC_SYSTEM_PROMPT = """
+For the artistic style, choose ONE of the following options that best matches the song's mood and tempo:
+
+- Cinematic: Creates dramatic lighting and depth, perfect for a film-like appearance
+- 3D Render: Adds realistic textures and depth for a lifelike, digital look
+
+Apply this chosen style consistently across ALL scene prompts.
+
 Format response as this JSON:
 {
   "song_analysis": {

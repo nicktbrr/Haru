@@ -1,43 +1,87 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Download, Play, Pause, Volume2, VolumeX } from "lucide-react"
-import { Slider } from "@/components/ui/slider"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Download, Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type VideoPreviewProps = {
-  title: string
-  videoType: "lyrics" | "music"
-}
+  title: string;
+  videoType: "lyrics" | "music";
+  videoUrl?: string | null;
+};
 
-export default function VideoPreview({ title, videoType }: VideoPreviewProps) {
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
-  const [volume, setVolume] = useState([80])
-  const [progress, setProgress] = useState([0])
-  const [quality, setQuality] = useState("720p")
+export default function VideoPreview({
+  title,
+  videoType,
+  videoUrl,
+}: VideoPreviewProps) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState([80]);
+  const [progress, setProgress] = useState([0]);
+  const [quality, setQuality] = useState("720p");
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying)
-  }
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   const toggleMute = () => {
-    setIsMuted(!isMuted)
-  }
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const handleVolumeChange = (value: number[]) => {
+    if (videoRef.current) {
+      videoRef.current.volume = value[0] / 100;
+      setVolume(value);
+    }
+  };
+
+  const handleProgressChange = (value: number[]) => {
+    if (videoRef.current) {
+      const time = (value[0] / 100) * videoRef.current.duration;
+      videoRef.current.currentTime = time;
+      setProgress(value);
+    }
+  };
 
   return (
     <div className="space-y-4">
-      <h3 className="text-xl font-bold text-pink-700">{title}</h3>
-
+      <h3 className="text-xl font-bold text-pink-700">my titele</h3>
       <div className="relative">
         <div className="aspect-video bg-gray-800 rounded-xl overflow-hidden shadow-lg">
-          {/* This would be a real video in production */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <p className="text-white text-opacity-50 font-medium">
-              {videoType === "lyrics" ? "Lyrics Video Preview" : "Music Video Preview"}
-            </p>
-          </div>
+          <video
+            ref={videoRef}
+            src={`/assets/output/output.mp4`}
+            className="w-full h-full object-cover"
+            onTimeUpdate={() => {
+              if (videoRef.current) {
+                const progress =
+                  (videoRef.current.currentTime / videoRef.current.duration) *
+                  100;
+                setProgress([progress]);
+              }
+            }}
+            onEnded={() => setIsPlaying(false)}
+          />
         </div>
 
         {/* Video Controls */}
@@ -48,7 +92,7 @@ export default function VideoPreview({ title, videoType }: VideoPreviewProps) {
               max={100}
               step={1}
               value={progress}
-              onValueChange={setProgress}
+              onValueChange={handleProgressChange}
               className="[&>span:first-child]:h-1.5 [&>span:first-child]:bg-white/30 [&_[role=slider]]:bg-pink-400 [&_[role=slider]]:w-4 [&_[role=slider]]:h-4 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-pink-400"
             />
 
@@ -60,7 +104,11 @@ export default function VideoPreview({ title, videoType }: VideoPreviewProps) {
                   onClick={togglePlay}
                   className="text-white hover:bg-white/20 rounded-full"
                 >
-                  {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+                  {isPlaying ? (
+                    <Pause className="h-5 w-5" />
+                  ) : (
+                    <Play className="h-5 w-5" />
+                  )}
                 </Button>
 
                 <Button
@@ -69,7 +117,11 @@ export default function VideoPreview({ title, videoType }: VideoPreviewProps) {
                   onClick={toggleMute}
                   className="text-white hover:bg-white/20 rounded-full"
                 >
-                  {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+                  {isMuted ? (
+                    <VolumeX className="h-5 w-5" />
+                  ) : (
+                    <Volume2 className="h-5 w-5" />
+                  )}
                 </Button>
 
                 <div className="w-24 hidden sm:block">
@@ -78,12 +130,14 @@ export default function VideoPreview({ title, videoType }: VideoPreviewProps) {
                     max={100}
                     step={1}
                     value={volume}
-                    onValueChange={setVolume}
+                    onValueChange={handleVolumeChange}
                     className="[&>span:first-child]:h-1 [&>span:first-child]:bg-white/30 [&_[role=slider]]:bg-pink-400 [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:border-0 [&>span:first-child_span]:bg-pink-400"
                   />
                 </div>
 
-                <span className="text-xs text-white font-medium">0:00 / 3:45</span>
+                <span className="text-xs text-white font-medium">
+                  0:00 / 3:45
+                </span>
               </div>
 
               <div className="flex items-center space-x-2">
@@ -111,6 +165,5 @@ export default function VideoPreview({ title, videoType }: VideoPreviewProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

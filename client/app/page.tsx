@@ -15,14 +15,6 @@ export default function Home() {
       {/* Subtle falling petals animation */}
       <FallingPetals count={12} />
 
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-64 h-64 opacity-70 pointer-events-none z-0">
-        <CherryBranchLeft className="w-full h-full text-pink-800/30" />
-      </div>
-      <div className="absolute top-0 right-0 w-64 h-64 opacity-70 pointer-events-none z-0">
-        <CherryBranchRight className="w-full h-full text-pink-800/30" />
-      </div>
-
       {/* Header */}
       <header className="w-full py-12 px-4 sm:px-6 lg:px-8 flex justify-center relative z-10">
         <div className="text-center">
@@ -31,8 +23,8 @@ export default function Home() {
               className="w-12 h-12 text-pink-500 mr-3"
               variant="full"
             />
-            <h1 className="text-5xl md:text-6xl font-bold text-pink-800">
-              Haru <span className="text-pink-500">春</span>
+            <h1 className="text-5xl md:text-6xl font-bold text-black">
+              Haru
             </h1>
             <CherryBlossom
               className="w-12 h-12 text-pink-500 ml-3"
@@ -40,8 +32,7 @@ export default function Home() {
             />
           </div>
           <p className="text-lg font-medium text-pink-700 max-w-2xl">
-            Transform your music into beautiful videos inspired by cherry
-            blossoms
+            Bringing music to life with Luma AI
           </p>
         </div>
       </header>
@@ -49,10 +40,6 @@ export default function Home() {
       {/* Main Content */}
       <main className="flex-1 container mx-auto px-4 py-8 max-w-4xl z-10">
         <div className="bg-white/80 backdrop-filter backdrop-blur-sm rounded-3xl shadow-xl p-6 md:p-8 border border-pink-100">
-          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-            <CherryBlossom className="w-12 h-12 text-pink-400" variant="full" />
-          </div>
-
           <Tabs defaultValue="upload" className="w-full">
             <TabsList className="grid w-full grid-cols-3 mb-8 bg-pink-50/70 rounded-2xl p-1">
               <TabsTrigger

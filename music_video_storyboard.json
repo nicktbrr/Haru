@@ -1,38 +1,38 @@
 {
   "song_analysis": {
-    "genre": "Novelty Song",
-    "tempo_bpm": "120",
-    "mood": "Humorous, Lighthearted",
-    "lyrical_themes": "Food, Hamburgers, Cooking",
-    "instrumentation": "Accordion, Piano, Percussion",
-    "artistic_style": "Cartoonish and whimsical",
-    "character_description": "A cheerful, slightly overweight chef with a bushy mustache and a love for hamburgers."
+    "genre": "Ska Punk",
+    "tempo_bpm": "150",
+    "mood": "Energetic, satirical, playful",
+    "lyrical_themes": "Tech satire, internet culture, creative hubris",
+    "instrumentation": "Electric guitars, brass, drums, bass",
+    "artistic_style": "3D Render",
+    "character_description": "A quirky, tech-savvy artist with a mischievous grin."
   },
   "scenes": [
     {
       "scene_number": 1,
-      "video_prompt": "Chef Gusteau enthusiastically adds ingredients to a giant hamburger in a brightly lit kitchen. The ingredients are oversized and comically colorful, and the chef's movements are exaggerated and cheerful.",
-      "image_prompt": "A cartoonish and whimsical style image of Chef Gusteau, with a bushy mustache, adding an oversized slice of tomato to a giant hamburger in a vibrant kitchen setting."
+      "video_prompt": "A close-up of the character's hands typing furiously on a glowing keyboard. The background is blurred with fast-moving code and digital icons. The camera focuses on the character's determined expression, illuminated by the screen. 3D Render.",
+      "image_prompt": "Close-up of hands on a keyboard with glowing keys, digital icons blurred in the background. Style: 3D Render."
     },
     {
       "scene_number": 2,
-      "video_prompt": "A musical interlude where the hamburger is shown dancing on a table while surrounded by animated condiments like ketchup and mustard bottles. The scene is fast-paced and energetic.",
-      "image_prompt": "A cartoonish and whimsical illustration of a hamburger dancing on a checkered table with animated ketchup and mustard bottles cheering it on."
+      "video_prompt": "The character stands triumphantly amidst a chaotic room filled with computer screens, wires, and scattered art supplies. They're holding up a tablet displaying a viral meme, laughing maniacally. Rapid camera movements and exaggerated angles add to the frenetic energy. 3D Render.",
+      "image_prompt": "Character laughing in a chaotic room filled with computer screens and art supplies, holding a tablet with a viral meme. Style: 3D Render."
     },
     {
       "scene_number": 3,
-      "video_prompt": "Chef Gusteau dramatically presents the finished hamburger, which towers over him, to an unseen audience, with confetti and sparklers going off around him. He beams with pride.",
-      "image_prompt": "A cartoonish and whimsical depiction of Chef Gusteau proudly presenting a gigantic, cartoon-style hamburger with confetti raining down and sparklers illuminating the scene."
+      "video_prompt": "A fast-paced montage of the character's artwork taking over the internet: appearing on billboards, glitching on TV screens, and popping up in social media feeds. The visuals are bright, colorful, and slightly distorted. 3D Render.",
+      "image_prompt": "Montage of artwork appearing on billboards, TV screens, and social media feeds. Style: 3D Render."
     },
     {
       "scene_number": 4,
-      "video_prompt": "A split screen showing two halves: one half showcases Chef Gusteau joyfully biting into the hamburger and the other half is a close up of the hamburger with animated ingredients falling from it as he takes a bite.",
-      "image_prompt": "A cartoonish and whimsical split screen image.  One half showing Chef Gusteau enjoying a bite of a large hamburger, the other showing the hamburger mid-bite with animated ingredients playfully falling out."
+      "video_prompt": "The character is now facing the camera with a worried expression, surrounded by glitching technology. The once-vibrant colors are now muted, and the room is filled with static. The character shrugs, trying to lighten the mood with a joke. 3D Render.",
+      "image_prompt": "Character looking worried surrounded by glitching technology and muted colors. Style: 3D Render."
     },
     {
       "scene_number": 5,
-      "video_prompt": "Chef Gusteau, covered in hamburger ingredients and condiments, takes a bow as the scene fades to black with a final close-up on the hamburger against a starry background.",
-      "image_prompt": "A cartoonish and whimsical final image. Chef Gusteau takes a bow, covered in hamburger ingredients, against a backdrop that transitions to a dark, starry night sky with the hamburger as the brightest star."
+      "video_prompt": "The character is performing on a stage lit with neon lights and animated graphics. They gesture to the crowd while a band of digital avatars plays instruments behind them. 3D Render.",
+      "image_prompt": "Character performing on stage with neon lights, digital graphics, and a band of digital avatars. Style: 3D Render."
     }
   ]
 }

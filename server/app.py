@@ -13,6 +13,7 @@ from generate_content.gen_image import test_image_generation
 from generate_content.gen_video import video_generation
 from utils.stitch_videos import merge_videos_with_audio
 from dotenv import load_dotenv
+import shutil
 
 # Load environment variables from .env file
 load_dotenv()
@@ -39,10 +40,16 @@ app.config["OUTPUT_FOLDER"] = os.path.join(
     app.config["UPLOAD_FOLDER"], "assets", "output"
 )
 
+# Configure Next.js public directory
+app.config["NEXT_PUBLIC_FOLDER"] = os.path.join(
+    app.config["UPLOAD_FOLDER"], "client", "public", "assets", "output"
+)
+
 # Create necessary folders
 os.makedirs(app.config["MUSIC_FOLDER"], exist_ok=True)
 os.makedirs(app.config["VIDEO_FOLDER"], exist_ok=True)
 os.makedirs(app.config["OUTPUT_FOLDER"], exist_ok=True)
+os.makedirs(app.config["NEXT_PUBLIC_FOLDER"], exist_ok=True)
 
 
 @app.route("/upload", methods=["POST"])
@@ -226,6 +233,11 @@ def generate_video():
 
         if not success:
             return jsonify({"error": "Failed to merge videos"}), 500
+
+        # Copy the video to the Next.js public directory
+        public_output_file = os.path.join(
+            app.config["NEXT_PUBLIC_FOLDER"], "output.mp4")
+        shutil.copy2(output_file, public_output_file)
 
         return jsonify(
             {

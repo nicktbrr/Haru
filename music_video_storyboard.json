@@ -1,38 +1,52 @@
 {
   "song_analysis": {
-    "title": "Echoes of the City",
-    "artist": "Unknown",
-    "genre": "Lo-fi Hip-Hop/Chillhop",
-    "tempo_bpm": "85",
-    "mood": "Reflective, melancholic, calm",
-    "lyrical_themes": "Loneliness, urban life, introspection (assuming based on genre)",
-    "instrumentation": "Lo-fi drums, piano, synth pads, subtle bass",
-    "character_description": "A young woman with dark, shoulder-length hair, wearing an oversized hoodie and jeans, appears lost in thought."
+    "genre": "Indie Pop",
+    "tempo_bpm": "120",
+    "mood": "Melancholic, reflective, hopeful",
+    "lyrical_themes": "Longing, nostalgia, the passage of time, bittersweet memories",
+    "instrumentation": "Acoustic guitar, keyboard, light drums, male vocals",
+    "character_description": "The main subject is a young woman with long, flowing brown hair, wearing a vintage floral dress, barefoot."
   },
   "scenes": [
     {
       "scene_number": 1,
-      "scene_setting": "Rainy city street at night, neon lights reflecting on wet pavement.",
-      "video_prompt": "A young woman walks slowly down a rainy city street at night. Neon signs cast colorful reflections on the wet pavement. She looks down, lost in thought. The camera focuses on her face, then pans up to show the cityscape blurred by the rain. Slow motion used for emphasis.",
-      "image_prompt": "Cinematic still of a woman walking on a rainy city street at night, neon lights reflecting. Focus on her contemplative face, rain blurring the background. Cinematic style, dramatic lighting, shallow depth of field.",
-      "scene_description": "The video opens with a shot of a lone figure walking through a rainy city street. The woman is lost in thought, and the rain seems to mirror her melancholic mood.",
-      "action": "Walking slowly and reflectively through the rain."
+      "video_prompt": "Open on a sun-drenched field of tall grass. The woman walks slowly through the grass, looking around wistfully as if searching for something. Soft, golden hour light filters through the grass. Slow motion, shallow depth of field.",
+      "image_prompt": "A lone woman in a vintage floral dress walks through a sun-drenched field of tall grass, golden hour light, shallow depth of field, nostalgic feel, Watercolor style."
     },
     {
       "scene_number": 2,
-      "scene_setting": "Inside a dimly lit, smoky cafe with large windows overlooking the city.",
-      "video_prompt": "The woman sits alone at a table in a dimly lit cafe. She sips coffee and gazes out the window at the city lights. The cafe is filled with soft ambient light and a haze of smoke. Close-up on her eyes, reflecting the city lights.",
-      "image_prompt": "Cinematic image of a woman sitting alone in a smoky cafe, looking out the window at the city lights. Soft, diffused lighting, shallow depth of field, focus on her eyes. Strong contrast between interior darkness and the bright city lights. Cinematic style.",
-      "scene_description": "Moving inside, the character finds herself in a quiet cafe. She looks out at the city lights, suggesting a sense of longing and disconnection.",
-      "action": "Sitting, sipping coffee, and gazing out the window."
+      "video_prompt": "Cut to a close-up of the woman's face as she finds an old, worn photograph in the grass. Her expression is a mix of sadness and fondness. The wind gently blows her hair. Focus on the photograph in her hands.",
+      "image_prompt": "Close-up of a woman's face with a mix of sadness and fondness as she holds an old photograph in her hands, wind blowing through her hair, nostalgic feel, Watercolor style."
     },
     {
       "scene_number": 3,
-      "scene_setting": "Rooftop overlooking the city at dawn, mist hanging in the air.",
-      "video_prompt": "The woman stands on a rooftop overlooking the city as dawn breaks. Mist hangs in the air. She closes her eyes and takes a deep breath. The camera pans out to show the vast cityscape awakening as the sun rises.",
-      "image_prompt": "Cinematic still of a woman standing on a rooftop at dawn overlooking a misty city. Soft, ethereal light, pastel colors in the sky. Wide shot emphasizing the cityscape. Cinematic style, focus on atmosphere and scale.",
-      "scene_description": "As the sun begins to rise, the woman goes to a rooftop and looks out over the city. There she finds a small peace and calmnes.",
-      "action": "Standing still, breathing deeply, watching the sunrise."
+      "video_prompt": "Flashback scene: A younger version of the woman (similar actress, possibly digitally aged) is laughing and playing in the same field with another young person. Fast cuts, slightly overexposed, giving it a memory-like quality.",
+      "image_prompt": "A younger woman laughing and playing in a field with another young person, overexposed, memory-like quality, nostalgic feel, Watercolor style."
+    },
+    {
+      "scene_number": 4,
+      "video_prompt": "Back to the present. The woman sits down in the grass, leaning against an old oak tree. She closes her eyes, as if reliving the memory. The camera slowly circles her.",
+      "image_prompt": "A woman sitting down in a field, leaning against an old oak tree, eyes closed, camera circling, nostalgic feel, Watercolor style."
+    },
+    {
+      "scene_number": 5,
+      "video_prompt": "The photograph in her hand begins to glow faintly. As it glows, translucent images of the past (the younger woman and the other person) appear superimposed over the present-day field. Ghostly, ethereal effect.",
+      "image_prompt": "A photograph glowing in a woman's hand, translucent images of the past superimposed over a field, ghostly effect, ethereal, nostalgic feel, Watercolor style."
+    },
+    {
+      "scene_number": 6,
+      "video_prompt": "The woman stands up and begins to walk towards a distant horizon. The sun is setting, casting long shadows. She appears to be walking towards the memory, not away from it.",
+      "image_prompt": "A woman walking towards a distant horizon, sun setting, long shadows, walking towards a memory, hopeful, nostalgic feel, Watercolor style."
+    },
+    {
+      "scene_number": 7,
+      "video_prompt": "Close up of the photograph again, but this time it is faded and damaged. She brushes the dirt off the photo as she stands in the field.",
+      "image_prompt": "Close-up of a faded and damaged photograph, held by a woman in the field, soft lighting, nostalgic feel, Watercolor style."
+    },
+    {
+      "scene_number": 8,
+      "video_prompt": "The woman smiles faintly as she is bathed in sunlight with birds flying overhead. Camera pans up to the sky, the sun shines brightly, and the field stretches out before her.",
+      "image_prompt": "A woman smiles faintly, bathed in sunlight, birds flying overhead, camera pans up to the sky, bright sun, vast field, hopeful, nostalgic feel, Watercolor style."
     }
   ]
 }

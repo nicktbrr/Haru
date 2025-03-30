@@ -8,8 +8,6 @@ from .prompts import SONG_DESC_SYSTEM_PROMPT, SONG_DESC_USER_PROMPT
 
 
 class SongAnalysis(BaseModel):
-    title: str
-    artist: str
     genre: str
     tempo_bpm: str = Field(..., description="Approximate BPM")
     mood: str
@@ -21,11 +19,8 @@ class SongAnalysis(BaseModel):
 
 class Scene(BaseModel):
     scene_number: int
-    scene_setting: str
     video_prompt: str
     image_prompt: str
-    scene_description: str
-    action: str
 
 
 class MusicVideoScenes(BaseModel):
@@ -66,7 +61,6 @@ def generate_music_video_analysis(song_path: str, client, song_title=None, song_
         music_video_scenes = MusicVideoScenes(**music_video_data)
 
         print("Successfully parsed response into MusicVideoScenes object!")
-        print(f"Song title: {music_video_scenes.song_analysis.title}")
         print(f"Number of scenes: {len(music_video_scenes.scenes)}")
 
         # You can also save the entire structured data

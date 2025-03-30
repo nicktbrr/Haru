@@ -111,11 +111,72 @@ def generate_video():
             ),
         )
 
-        print(latest_file)
-        print(app.config["VIDEO_FOLDER"])
-        print(app.config["OUTPUT_FOLDER"])
-
         # Create proper output path with filename
+
+        try:
+            client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+            music_video_scenes = generate_music_video_analysis(
+                latest_file, client)
+            print(music_video_scenes)
+        except Exception as e:
+            print(f"Error generating music video scenes: {str(e)}")
+            return jsonify({"error": f"Error generating music video scenes: {str(e)}"}), 500
+        # description = "A Jet flying over the city"
+
+        # Generate video
+        # video_url = luma_connector.generate_video(prompt=description)
+        client = LumaAI()
+
+        def generate_and_save_image(scene_data):
+            i, scene = scene_data
+            image_url = test_image_generation(client, scene.image_prompt)
+            response = requests.get(image_url, stream=True)
+
+            with open(f'./assets/images/image_{i}.jpg', 'wb') as file:
+                file.write(response.content)
+            print(f"File downloaded as image_{i}.jpg")
+            print(f"Scene {scene.scene_number}: {scene.scene_setting}")
+            return (i, image_url)
+
+        # Create a list of tuples containing index and scene data
+        scene_data = [(i, scene)
+                      for i, scene in enumerate(music_video_scenes.scenes)]
+
+        # Use ThreadPoolExecutor for parallel processing
+        image_urls = {}  # Dictionary to store index -> image_url mapping
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            # Submit all tasks and wait for them to complete
+            futures = [executor.submit(generate_and_save_image, data)
+                       for data in scene_data]
+            # Collect results as they complete
+            for future in concurrent.futures.as_completed(futures):
+                i, url = future.result()
+                image_urls[i] = url
+
+        print("All images generated. Starting video generation...")
+
+        def generate_and_save_video(scene_data):
+            i, scene = scene_data
+            # Get the corresponding image URL for this scene
+            image_url = image_urls[i]
+            video_url = video_generation(client, scene.video_prompt, image_url)
+            response = requests.get(video_url, stream=True)
+
+            with open(f'./assets/videos/video_{i}.mp4', 'wb') as file:
+                file.write(response.content)
+            print(f"Video downloaded as video_{i}.mp4")
+            print(f"Scene {scene.scene_number}: {scene.scene_setting}")
+            return video_url
+
+        # Use ThreadPoolExecutor for parallel video processing
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+            # Submit all video generation tasks and wait for them to complete
+            futures = [executor.submit(generate_and_save_video, data)
+                       for data in scene_data]
+            concurrent.futures.wait(futures)
+
+        print("All videos generated successfully!")
+
         output_file = os.path.join(app.config["OUTPUT_FOLDER"], "output.mp4")
         audio_file_path = os.path.join(app.config["MUSIC_FOLDER"], latest_file)
 
@@ -128,72 +189,6 @@ def generate_video():
 
         if not success:
             return jsonify({"error": "Failed to merge videos"}), 500
-        # try:
-        #     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
-        #     music_video_scenes = generate_music_video_analysis(
-        #         latest_file, client)
-        #     print(music_video_scenes)
-        # except Exception as e:
-        #     print(f"Error generating music video scenes: {str(e)}")
-        #     return jsonify({"error": f"Error generating music video scenes: {str(e)}"}), 500
-        # # description = "A Jet flying over the city"
-
-        # # Generate video
-        # # video_url = luma_connector.generate_video(prompt=description)
-        # client = LumaAI()
-
-        # def generate_and_save_image(scene_data):
-        #     i, scene = scene_data
-        #     image_url = test_image_generation(client, scene.image_prompt)
-        #     response = requests.get(image_url, stream=True)
-
-        #     with open(f'./assets/images/image_{i}.jpg', 'wb') as file:
-        #         file.write(response.content)
-        #     print(f"File downloaded as image_{i}.jpg")
-        #     print(f"Scene {scene.scene_number}: {scene.scene_setting}")
-        #     return (i, image_url)
-
-        # # Create a list of tuples containing index and scene data
-        # scene_data = [(i, scene)
-        #               for i, scene in enumerate(music_video_scenes.scenes)]
-
-        # # Use ThreadPoolExecutor for parallel processing
-        # image_urls = {}  # Dictionary to store index -> image_url mapping
-        # with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        #     # Submit all tasks and wait for them to complete
-        #     futures = [executor.submit(generate_and_save_image, data)
-        #                for data in scene_data]
-        #     # Collect results as they complete
-        #     for future in concurrent.futures.as_completed(futures):
-        #         i, url = future.result()
-        #         image_urls[i] = url
-
-        # print("All images generated. Starting video generation...")
-
-        # def generate_and_save_video(scene_data):
-        #     i, scene = scene_data
-        #     # Get the corresponding image URL for this scene
-        #     image_url = image_urls[i]
-        #     video_url = video_generation(client, scene.video_prompt, image_url)
-        #     response = requests.get(video_url, stream=True)
-
-        #     with open(f'./assets/videos/video_{i}.mp4', 'wb') as file:
-        #         file.write(response.content)
-        #     print(f"Video downloaded as video_{i}.mp4")
-        #     print(f"Scene {scene.scene_number}: {scene.scene_setting}")
-        #     return video_url
-
-        # # Use ThreadPoolExecutor for parallel video processing
-        # with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        #     # Submit all video generation tasks and wait for them to complete
-        #     futures = [executor.submit(generate_and_save_video, data)
-        #                for data in scene_data]
-        #     concurrent.futures.wait(futures)
-
-        # print("All videos generated successfully!")
-
-        # merge_videos_with_audio(app.config["VIDEO_FOLDER"], app.config["OUTPUT_FOLDER"],
-        # audio_file = latest_file, normalize_resolution = True)
 
         return jsonify(
             {

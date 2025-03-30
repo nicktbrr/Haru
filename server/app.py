@@ -111,8 +111,6 @@ def generate_video():
             ),
         )
 
-        # Create proper output path with filename
-
         try:
             client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
             music_video_scenes = generate_music_video_analysis(
@@ -121,10 +119,10 @@ def generate_video():
         except Exception as e:
             print(f"Error generating music video scenes: {str(e)}")
             return jsonify({"error": f"Error generating music video scenes: {str(e)}"}), 500
-        # description = "A Jet flying over the city"
+
+        print(music_video_scenes)
 
         # Generate video
-        # video_url = luma_connector.generate_video(prompt=description)
         client = LumaAI()
 
         def generate_and_save_image(scene_data):
@@ -135,7 +133,6 @@ def generate_video():
             with open(f'./assets/images/image_{i}.jpg', 'wb') as file:
                 file.write(response.content)
             print(f"File downloaded as image_{i}.jpg")
-            print(f"Scene {scene.scene_number}: {scene.scene_setting}")
             return (i, image_url)
 
         # Create a list of tuples containing index and scene data
@@ -159,24 +156,33 @@ def generate_video():
             i, scene = scene_data
             # Get the corresponding image URL for this scene
             image_url = image_urls[i]
-            video_url = video_generation(client, scene.video_prompt, image_url)
-            response = requests.get(video_url, stream=True)
+            try:
+                video_url = video_generation(
+                    client, scene.video_prompt, image_url)
+                response = requests.get(video_url, stream=True)
 
-            with open(f'./assets/videos/video_{i}.mp4', 'wb') as file:
-                file.write(response.content)
-            print(f"Video downloaded as video_{i}.mp4")
-            print(f"Scene {scene.scene_number}: {scene.scene_setting}")
-            return video_url
+                with open(f'./assets/videos/video_{i}.mp4', 'wb') as file:
+                    file.write(response.content)
+                print(f"Video downloaded as video_{i}.mp4")
+                return video_url
+            except Exception as e:
+                print(f"Error generating video for scene {i}: {str(e)}")
+                raise
 
         # Use ThreadPoolExecutor for parallel video processing
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
             # Submit all video generation tasks and wait for them to complete
             futures = [executor.submit(generate_and_save_video, data)
                        for data in scene_data]
-            concurrent.futures.wait(futures)
+            try:
+                concurrent.futures.wait(futures)
+            except Exception as e:
+                print(f"Error in video generation: {str(e)}")
+                return jsonify({"error": f"Error generating videos: {str(e)}"}), 500
 
         print("All videos generated successfully!")
 
+        # Create proper output path with filename
         output_file = os.path.join(app.config["OUTPUT_FOLDER"], "output.mp4")
         audio_file_path = os.path.join(app.config["MUSIC_FOLDER"], latest_file)
 
@@ -194,13 +200,13 @@ def generate_video():
             {
                 "message": "Found latest music file",
                 "filename": latest_file,
-                "filepath": os.path.join(
-                    app.config["MUSIC_FOLDER"], latest_file
-                ),
+                "filepath": audio_file_path,
+                "output_file": output_file
             }
         )
 
     except Exception as e:
+        print(f"Error in generate_video: {str(e)}")
         return jsonify({"error": f"Error finding music file: {str(e)}"}), 500
 
 

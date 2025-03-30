@@ -2,51 +2,37 @@
   "song_analysis": {
     "genre": "Indie Pop",
     "tempo_bpm": "120",
-    "mood": "Melancholic, reflective, hopeful",
-    "lyrical_themes": "Longing, nostalgia, the passage of time, bittersweet memories",
-    "instrumentation": "Acoustic guitar, keyboard, light drums, male vocals",
-    "character_description": "The main subject is a young woman with long, flowing brown hair, wearing a vintage floral dress, barefoot."
+    "mood": "Dreamy, nostalgic, slightly melancholic",
+    "lyrical_themes": "Longing, lost love, memories",
+    "instrumentation": "Synthesizers, acoustic drums, male vocals, bass guitar",
+    "artistic_style": "Watercolor",
+    "character_description": "A young woman with long, flowing brown hair wearing a light blue dress, stands alone in different locations."
   },
   "scenes": [
     {
       "scene_number": 1,
-      "video_prompt": "Open on a sun-drenched field of tall grass. The woman walks slowly through the grass, looking around wistfully as if searching for something. Soft, golden hour light filters through the grass. Slow motion, shallow depth of field.",
-      "image_prompt": "A lone woman in a vintage floral dress walks through a sun-drenched field of tall grass, golden hour light, shallow depth of field, nostalgic feel, Watercolor style."
+      "video_prompt": "Open on a close-up of rippling water reflecting a cloudy sky, watercolor animation style. A hand gently reaches into the water, causing further ripples. The hand belongs to a young woman with long brown hair. As she pulls her hand from the water, the reflection of the sky distorts, and a faint image of a past lover appears and quickly disappears.",
+      "image_prompt": "Close-up of a hand reaching into rippling water, reflecting a cloudy sky. Faint, distorted image of a face in the water. Watercolor animation style, pastel colors, soft brushstrokes."
     },
     {
       "scene_number": 2,
-      "video_prompt": "Cut to a close-up of the woman's face as she finds an old, worn photograph in the grass. Her expression is a mix of sadness and fondness. The wind gently blows her hair. Focus on the photograph in her hands.",
-      "image_prompt": "Close-up of a woman's face with a mix of sadness and fondness as she holds an old photograph in her hands, wind blowing through her hair, nostalgic feel, Watercolor style."
+      "video_prompt": "The young woman, standing in a field of tall grass at sunset, looks wistfully at the horizon. The grass sways gently in the wind, watercolor animation style. Sunlight creates a soft, ethereal glow around her. She turns her head slightly, as if hearing a faint whisper.",
+      "image_prompt": "Young woman with long brown hair standing in a field of tall grass at sunset. Soft sunlight, ethereal glow. Watercolor animation style, warm colors, impressionistic brushstrokes."
     },
     {
       "scene_number": 3,
-      "video_prompt": "Flashback scene: A younger version of the woman (similar actress, possibly digitally aged) is laughing and playing in the same field with another young person. Fast cuts, slightly overexposed, giving it a memory-like quality.",
-      "image_prompt": "A younger woman laughing and playing in a field with another young person, overexposed, memory-like quality, nostalgic feel, Watercolor style."
+      "video_prompt": "Quick cuts of fragmented memories: a laughing face, a shared ice cream cone, holding hands walking down a street, all appearing as faded watercolor paintings that dissolve and blend into each other. The color palette shifts with each memory, evoking different emotions.",
+      "image_prompt": "Collage of fragmented memories - a smiling face, an ice cream cone, holding hands - all rendered in faded watercolor animation style. Varied color palette, dreamy and nostalgic feel."
     },
     {
       "scene_number": 4,
-      "video_prompt": "Back to the present. The woman sits down in the grass, leaning against an old oak tree. She closes her eyes, as if reliving the memory. The camera slowly circles her.",
-      "image_prompt": "A woman sitting down in a field, leaning against an old oak tree, eyes closed, camera circling, nostalgic feel, Watercolor style."
+      "video_prompt": "The woman is now sitting alone in a dimly lit room, watercolor animation style. Rain streaks down the window. She's looking at an old photograph of herself with the lost lover, her expression a mix of sadness and acceptance. A single tear rolls down her cheek, blending with the rain on the window.",
+      "image_prompt": "Woman sitting alone in a dimly lit room, looking at an old photograph. Rain streaks on the window. Watercolor animation style, muted colors, melancholic atmosphere."
     },
     {
       "scene_number": 5,
-      "video_prompt": "The photograph in her hand begins to glow faintly. As it glows, translucent images of the past (the younger woman and the other person) appear superimposed over the present-day field. Ghostly, ethereal effect.",
-      "image_prompt": "A photograph glowing in a woman's hand, translucent images of the past superimposed over a field, ghostly effect, ethereal, nostalgic feel, Watercolor style."
-    },
-    {
-      "scene_number": 6,
-      "video_prompt": "The woman stands up and begins to walk towards a distant horizon. The sun is setting, casting long shadows. She appears to be walking towards the memory, not away from it.",
-      "image_prompt": "A woman walking towards a distant horizon, sun setting, long shadows, walking towards a memory, hopeful, nostalgic feel, Watercolor style."
-    },
-    {
-      "scene_number": 7,
-      "video_prompt": "Close up of the photograph again, but this time it is faded and damaged. She brushes the dirt off the photo as she stands in the field.",
-      "image_prompt": "Close-up of a faded and damaged photograph, held by a woman in the field, soft lighting, nostalgic feel, Watercolor style."
-    },
-    {
-      "scene_number": 8,
-      "video_prompt": "The woman smiles faintly as she is bathed in sunlight with birds flying overhead. Camera pans up to the sky, the sun shines brightly, and the field stretches out before her.",
-      "image_prompt": "A woman smiles faintly, bathed in sunlight, birds flying overhead, camera pans up to the sky, bright sun, vast field, hopeful, nostalgic feel, Watercolor style."
+      "video_prompt": "The woman walks away from the camera, towards a distant light, watercolor animation style. The environment transforms from a dark, rainy scene into a bright, hopeful landscape with blossoming trees. She smiles faintly as she continues walking, suggesting a newfound sense of peace and closure. The scene fades to white.",
+      "image_prompt": "Woman walking towards a distant light in a bright, hopeful landscape with blossoming trees. Watercolor animation style, vibrant colors, optimistic mood."
     }
   ]
 }

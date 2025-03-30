@@ -13,6 +13,7 @@ class SongAnalysis(BaseModel):
     mood: str
     lyrical_themes: str
     instrumentation: str
+    artistic_style: str
     character_description: str = Field(...,
                                        description="Brief character description (max 3 sentences)")
 

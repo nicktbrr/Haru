@@ -103,66 +103,76 @@ def concatenate_videos(video_files, output_path, audio_file=None, normalize_reso
                 video_files = normalized_videos
                 concat_file = create_concat_file(video_files, temp_dir)
 
-        # Basic concatenation command
+        # First concatenate videos without fades
+        temp_concat = os.path.join(temp_dir, "temp_concat.mp4")
         concat_cmd = [
             'ffmpeg', '-y',
             '-f', 'concat',
             '-safe', '0',
             '-i', concat_file,
-            '-c', 'copy'
+            '-c', 'copy',
+            temp_concat
         ]
 
-        # If audio file is provided
-        if audio_file:
-            if os.path.exists(audio_file):
-                # First, create concatenated video without audio
-                temp_output = os.path.join(temp_dir, "temp_concat.mp4")
-                temp_cmd = concat_cmd + [temp_output]
-
-                try:
-                    subprocess.run(temp_cmd, check=True,
-                                   stderr=subprocess.PIPE)
-                except subprocess.CalledProcessError as e:
-                    print(
-                        f"Error concatenating videos: {e.stderr.decode('utf-8')}")
-                    return False
-
-                # Get duration of concatenated video
-                video_info = get_video_info(temp_output)
-                if not video_info:
-                    return False
-
-                # Command to add audio and trim it to match video duration
-                audio_cmd = [
-                    'ffmpeg', '-y',
-                    '-i', temp_output,
-                    '-i', audio_file,
-                    '-filter_complex', f"[1:a]atrim=0:{video_info['duration']},asetpts=PTS-STARTPTS[a]",
-                    '-map', '0:v', '-map', '[a]',
-                    '-c:v', 'copy', '-c:a', 'aac',
-                    output_path
-                ]
-
-                try:
-                    subprocess.run(audio_cmd, check=True,
-                                   stderr=subprocess.PIPE)
-                    return True
-                except subprocess.CalledProcessError as e:
-                    print(f"Error adding audio: {e.stderr.decode('utf-8')}")
-                    return False
-            else:
-                print(
-                    f"Warning: Audio file '{audio_file}' not found. Continuing without audio.")
-                # Continue with concatenation only
-
-        # If no audio or audio file doesn't exist, just concatenate
-        final_cmd = concat_cmd + [output_path]
         try:
-            subprocess.run(final_cmd, check=True, stderr=subprocess.PIPE)
-            return True
+            subprocess.run(concat_cmd, check=True, stderr=subprocess.PIPE)
         except subprocess.CalledProcessError as e:
             print(f"Error concatenating videos: {e.stderr.decode('utf-8')}")
             return False
+
+        # Get duration of concatenated video
+        video_info = get_video_info(temp_concat)
+        if not video_info:
+            return False
+
+        duration = video_info['duration']
+        fade_duration = 1.0  # 1 second fade
+
+        # Apply fade in and fade out
+        fade_cmd = [
+            'ffmpeg', '-y',
+            '-i', temp_concat,
+            '-vf', f'fade=t=in:st=0:d={fade_duration},fade=t=out:st={duration-fade_duration}:d={fade_duration}',
+            '-c:a', 'copy'
+        ]
+
+        # If audio file is provided
+        if audio_file and os.path.exists(audio_file):
+            # First apply fades to video
+            temp_faded = os.path.join(temp_dir, "temp_faded.mp4")
+            try:
+                subprocess.run(fade_cmd + [temp_faded],
+                               check=True, stderr=subprocess.PIPE)
+            except subprocess.CalledProcessError as e:
+                print(f"Error applying fades: {e.stderr.decode('utf-8')}")
+                return False
+
+            # Then add audio
+            audio_cmd = [
+                'ffmpeg', '-y',
+                '-i', temp_faded,
+                '-i', audio_file,
+                '-filter_complex', f"[1:a]atrim=0:{duration},asetpts=PTS-STARTPTS[a]",
+                '-map', '0:v', '-map', '[a]',
+                '-c:v', 'copy', '-c:a', 'aac',
+                output_path
+            ]
+
+            try:
+                subprocess.run(audio_cmd, check=True, stderr=subprocess.PIPE)
+                return True
+            except subprocess.CalledProcessError as e:
+                print(f"Error adding audio: {e.stderr.decode('utf-8')}")
+                return False
+        else:
+            # Just apply fades without audio
+            try:
+                subprocess.run(fade_cmd + [output_path],
+                               check=True, stderr=subprocess.PIPE)
+                return True
+            except subprocess.CalledProcessError as e:
+                print(f"Error applying fades: {e.stderr.decode('utf-8')}")
+                return False
 
 
 def get_video_files_from_directory(directory):

@@ -79,7 +79,12 @@ def get_video_info(video_path):
 
 
 def concatenate_videos(
-    video_files, output_path, audio_file=None, normalize_resolution=False
+    video_files,
+    output_path,
+    audio_file=None,
+    normalize_resolution=False,
+    brightness=50,
+    contrast=50,
 ):
     """Concatenate multiple videos into one, optionally adding audio."""
     temp_dir = tempfile.mkdtemp()
@@ -104,11 +109,28 @@ def concatenate_videos(
         if audio_file:
             cmd.extend(["-i", str(audio_file)])
 
-        # Add video filters to maintain aspect ratio
+        # Calculate brightness and contrast values
+        # Convert from 0-100 range to FFmpeg's expected ranges
+        # Brightness: -1.0 to 1.0
+        # Contrast: 0.0 to 2.0
+        brightness_value = ((brightness - 50) / 50) * 1.0
+        contrast_value = 1.0 + (contrast - 50) / 50
+
+        # Build video filters
+        filters = []
         if normalize_resolution:
-            # Scale videos to match target dimensions while maintaining aspect ratio
-            scale_filter = f"scale={target_width}:{target_height}:force_original_aspect_ratio=decrease,pad={target_width}:{target_height}:(ow-iw)/2:(oh-ih)/2"
-            cmd.extend(["-vf", scale_filter])
+            filters.append(
+                f"scale={target_width}:{target_height}:force_original_aspect_ratio=decrease,pad={target_width}:{target_height}:(ow-iw)/2:(oh-ih)/2"
+            )
+
+        # Add brightness and contrast filters
+        filters.append(
+            f"eq=brightness={brightness_value}:contrast={contrast_value}"
+        )
+
+        # Combine all filters
+        if filters:
+            cmd.extend(["-vf", ",".join(filters)])
 
         # Add output options with better quality settings
         cmd.extend(
@@ -174,9 +196,14 @@ def get_video_files_from_directory(directory):
 
 
 def merge_videos_with_audio(
-    video_dir, output_path, audio_file=None, normalize=True
+    video_dir,
+    output_path,
+    audio_file=None,
+    normalize=True,
+    brightness=50,
+    contrast=50,
 ):
-    """Merge all videos in a directory with optional audio."""
+    """Merge all videos in a directory with optional audio file."""
     try:
         # Get all video files from the directory
         video_files = get_video_files_from_directory(video_dir)
@@ -193,6 +220,8 @@ def merge_videos_with_audio(
             output_path,
             audio_file=audio_file,
             normalize_resolution=normalize,
+            brightness=brightness,
+            contrast=contrast,
         )
         return True
 

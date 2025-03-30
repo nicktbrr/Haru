@@ -113,8 +113,10 @@ def generate_video():
 
         try:
             client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+            audio_file_path = os.path.join(
+                app.config["MUSIC_FOLDER"], latest_file)
             music_video_scenes = generate_music_video_analysis(
-                latest_file, client)
+                audio_file_path, client)
             print(music_video_scenes)
         except Exception as e:
             print(f"Error generating music video scenes: {str(e)}")

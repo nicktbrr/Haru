@@ -34,11 +34,15 @@ def generate_music_video_analysis(song_path: str, client, song_title=None, song_
     system_instructions = SONG_DESC_SYSTEM_PROMPT
     user_prompt = SONG_DESC_USER_PROMPT
 
+    print("song_path", song_path)
+
+    myfile = client.files.upload(file=song_path)
+
     response = client.models.generate_content(
         model='gemini-2.0-flash',
         config=types.GenerateContentConfig(
             system_instruction=system_instructions),
-        contents=[user_prompt, song_path]
+        contents=[user_prompt, myfile]
     )
 
     json_str = response.text

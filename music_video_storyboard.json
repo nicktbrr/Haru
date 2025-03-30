@@ -1,38 +1,38 @@
 {
   "song_analysis": {
-    "genre": "Indie Pop",
+    "genre": "Novelty Song",
     "tempo_bpm": "120",
-    "mood": "Dreamy, nostalgic, slightly melancholic",
-    "lyrical_themes": "Longing, lost love, memories",
-    "instrumentation": "Synthesizers, acoustic drums, male vocals, bass guitar",
-    "artistic_style": "Watercolor",
-    "character_description": "A young woman with long, flowing brown hair wearing a light blue dress, stands alone in different locations."
+    "mood": "Humorous, Lighthearted",
+    "lyrical_themes": "Food, Hamburgers, Cooking",
+    "instrumentation": "Accordion, Piano, Percussion",
+    "artistic_style": "Cartoonish and whimsical",
+    "character_description": "A cheerful, slightly overweight chef with a bushy mustache and a love for hamburgers."
   },
   "scenes": [
     {
       "scene_number": 1,
-      "video_prompt": "Open on a close-up of rippling water reflecting a cloudy sky, watercolor animation style. A hand gently reaches into the water, causing further ripples. The hand belongs to a young woman with long brown hair. As she pulls her hand from the water, the reflection of the sky distorts, and a faint image of a past lover appears and quickly disappears.",
-      "image_prompt": "Close-up of a hand reaching into rippling water, reflecting a cloudy sky. Faint, distorted image of a face in the water. Watercolor animation style, pastel colors, soft brushstrokes."
+      "video_prompt": "Chef Gusteau enthusiastically adds ingredients to a giant hamburger in a brightly lit kitchen. The ingredients are oversized and comically colorful, and the chef's movements are exaggerated and cheerful.",
+      "image_prompt": "A cartoonish and whimsical style image of Chef Gusteau, with a bushy mustache, adding an oversized slice of tomato to a giant hamburger in a vibrant kitchen setting."
     },
     {
       "scene_number": 2,
-      "video_prompt": "The young woman, standing in a field of tall grass at sunset, looks wistfully at the horizon. The grass sways gently in the wind, watercolor animation style. Sunlight creates a soft, ethereal glow around her. She turns her head slightly, as if hearing a faint whisper.",
-      "image_prompt": "Young woman with long brown hair standing in a field of tall grass at sunset. Soft sunlight, ethereal glow. Watercolor animation style, warm colors, impressionistic brushstrokes."
+      "video_prompt": "A musical interlude where the hamburger is shown dancing on a table while surrounded by animated condiments like ketchup and mustard bottles. The scene is fast-paced and energetic.",
+      "image_prompt": "A cartoonish and whimsical illustration of a hamburger dancing on a checkered table with animated ketchup and mustard bottles cheering it on."
     },
     {
       "scene_number": 3,
-      "video_prompt": "Quick cuts of fragmented memories: a laughing face, a shared ice cream cone, holding hands walking down a street, all appearing as faded watercolor paintings that dissolve and blend into each other. The color palette shifts with each memory, evoking different emotions.",
-      "image_prompt": "Collage of fragmented memories - a smiling face, an ice cream cone, holding hands - all rendered in faded watercolor animation style. Varied color palette, dreamy and nostalgic feel."
+      "video_prompt": "Chef Gusteau dramatically presents the finished hamburger, which towers over him, to an unseen audience, with confetti and sparklers going off around him. He beams with pride.",
+      "image_prompt": "A cartoonish and whimsical depiction of Chef Gusteau proudly presenting a gigantic, cartoon-style hamburger with confetti raining down and sparklers illuminating the scene."
     },
     {
       "scene_number": 4,
-      "video_prompt": "The woman is now sitting alone in a dimly lit room, watercolor animation style. Rain streaks down the window. She's looking at an old photograph of herself with the lost lover, her expression a mix of sadness and acceptance. A single tear rolls down her cheek, blending with the rain on the window.",
-      "image_prompt": "Woman sitting alone in a dimly lit room, looking at an old photograph. Rain streaks on the window. Watercolor animation style, muted colors, melancholic atmosphere."
+      "video_prompt": "A split screen showing two halves: one half showcases Chef Gusteau joyfully biting into the hamburger and the other half is a close up of the hamburger with animated ingredients falling from it as he takes a bite.",
+      "image_prompt": "A cartoonish and whimsical split screen image.  One half showing Chef Gusteau enjoying a bite of a large hamburger, the other showing the hamburger mid-bite with animated ingredients playfully falling out."
     },
     {
       "scene_number": 5,
-      "video_prompt": "The woman walks away from the camera, towards a distant light, watercolor animation style. The environment transforms from a dark, rainy scene into a bright, hopeful landscape with blossoming trees. She smiles faintly as she continues walking, suggesting a newfound sense of peace and closure. The scene fades to white.",
-      "image_prompt": "Woman walking towards a distant light in a bright, hopeful landscape with blossoming trees. Watercolor animation style, vibrant colors, optimistic mood."
+      "video_prompt": "Chef Gusteau, covered in hamburger ingredients and condiments, takes a bow as the scene fades to black with a final close-up on the hamburger against a starry background.",
+      "image_prompt": "A cartoonish and whimsical final image. Chef Gusteau takes a bow, covered in hamburger ingredients, against a backdrop that transitions to a dark, starry night sky with the hamburger as the brightest star."
     }
   ]
 }

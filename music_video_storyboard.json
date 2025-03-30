@@ -1,0 +1,38 @@
+{
+  "song_analysis": {
+    "genre": "Ska Punk",
+    "tempo_bpm": "150",
+    "mood": "Energetic, satirical, playful",
+    "lyrical_themes": "Tech satire, internet culture, creative hubris",
+    "instrumentation": "Electric guitars, brass, drums, bass",
+    "artistic_style": "3D Render",
+    "character_description": "A quirky, tech-savvy artist with a mischievous grin."
+  },
+  "scenes": [
+    {
+      "scene_number": 1,
+      "video_prompt": "A close-up of the character's hands typing furiously on a glowing keyboard. The background is blurred with fast-moving code and digital icons. The camera focuses on the character's determined expression, illuminated by the screen. 3D Render.",
+      "image_prompt": "Close-up of hands on a keyboard with glowing keys, digital icons blurred in the background. Style: 3D Render."
+    },
+    {
+      "scene_number": 2,
+      "video_prompt": "The character stands triumphantly amidst a chaotic room filled with computer screens, wires, and scattered art supplies. They're holding up a tablet displaying a viral meme, laughing maniacally. Rapid camera movements and exaggerated angles add to the frenetic energy. 3D Render.",
+      "image_prompt": "Character laughing in a chaotic room filled with computer screens and art supplies, holding a tablet with a viral meme. Style: 3D Render."
+    },
+    {
+      "scene_number": 3,
+      "video_prompt": "A fast-paced montage of the character's artwork taking over the internet: appearing on billboards, glitching on TV screens, and popping up in social media feeds. The visuals are bright, colorful, and slightly distorted. 3D Render.",
+      "image_prompt": "Montage of artwork appearing on billboards, TV screens, and social media feeds. Style: 3D Render."
+    },
+    {
+      "scene_number": 4,
+      "video_prompt": "The character is now facing the camera with a worried expression, surrounded by glitching technology. The once-vibrant colors are now muted, and the room is filled with static. The character shrugs, trying to lighten the mood with a joke. 3D Render.",
+      "image_prompt": "Character looking worried surrounded by glitching technology and muted colors. Style: 3D Render."
+    },
+    {
+      "scene_number": 5,
+      "video_prompt": "The character is performing on a stage lit with neon lights and animated graphics. They gesture to the crowd while a band of digital avatars plays instruments behind them. 3D Render.",
+      "image_prompt": "Character performing on stage with neon lights, digital graphics, and a band of digital avatars. Style: 3D Render."
+    }
+  ]
+}

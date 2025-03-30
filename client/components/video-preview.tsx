@@ -28,7 +28,16 @@ export default function VideoPreview({
   const [volume, setVolume] = useState([80]);
   const [progress, setProgress] = useState([0]);
   const [quality, setQuality] = useState("720p");
+  const [aspectRatio, setAspectRatio] = useState<"16:9" | "9:16">("16:9");
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleVideoLoad = () => {
+    if (videoRef.current) {
+      const { videoWidth, videoHeight } = videoRef.current;
+      const ratio = videoWidth / videoHeight;
+      setAspectRatio(ratio > 1 ? "16:9" : "9:16");
+    }
+  };
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -65,13 +74,20 @@ export default function VideoPreview({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-xl font-bold text-pink-700">my titele</h3>
+      <h3 className="text-xl font-bold text-pink-700">{title}</h3>
       <div className="relative">
-        <div className="aspect-video bg-gray-800 rounded-xl overflow-hidden shadow-lg">
+        <div
+          className={`bg-gray-800 rounded-xl overflow-hidden shadow-lg ${
+            aspectRatio === "16:9"
+              ? "aspect-video w-full"
+              : "aspect-[9/16] w-[360px] mx-auto"
+          }`}
+        >
           <video
             ref={videoRef}
             src={`/assets/output/output.mp4`}
             className="w-full h-full object-cover"
+            onLoadedMetadata={handleVideoLoad}
             onTimeUpdate={() => {
               if (videoRef.current) {
                 const progress =

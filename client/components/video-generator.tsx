@@ -53,6 +53,8 @@ export default function VideoGenerator({
         },
         body: JSON.stringify({
           format: videoFormat,
+          brightness: brightness[0],
+          contrast: contrast[0],
         }),
       });
 
@@ -277,9 +279,7 @@ export default function VideoGenerator({
                 step={1}
                 value={brightness}
                 onValueChange={setBrightness}
-                className="[&>span:first-child]:bg-pink-100"
-                thumbClassName="bg-pink-500 border-pink-200 h-5 w-5"
-                trackClassName="bg-pink-400 h-2"
+                className="[&>span:first-child]:bg-pink-100 [&_[role=slider]]:bg-pink-500 [&_[role=slider]]:border-pink-200 [&_[role=slider]]:h-5 [&_[role=slider]]:w-5 [&>span:first-child]:h-2 [&>span:first-child]:bg-pink-400"
               />
             </div>
 
@@ -296,9 +296,7 @@ export default function VideoGenerator({
                 step={1}
                 value={contrast}
                 onValueChange={setContrast}
-                className="[&>span:first-child]:bg-pink-100"
-                thumbClassName="bg-pink-500 border-pink-200 h-5 w-5"
-                trackClassName="bg-pink-400 h-2"
+                className="[&>span:first-child]:bg-pink-100 [&_[role=slider]]:bg-pink-500 [&_[role=slider]]:border-pink-200 [&_[role=slider]]:h-5 [&_[role=slider]]:w-5 [&>span:first-child]:h-2 [&>span:first-child]:bg-pink-400"
               />
             </div>
 
@@ -316,9 +314,7 @@ export default function VideoGenerator({
                   step={1}
                   value={textSize}
                   onValueChange={setTextSize}
-                  className="[&>span:first-child]:bg-pink-100"
-                  thumbClassName="bg-pink-500 border-pink-200 h-5 w-5"
-                  trackClassName="bg-pink-400 h-2"
+                  className="[&>span:first-child]:bg-pink-100 [&_[role=slider]]:bg-pink-500 [&_[role=slider]]:border-pink-200 [&_[role=slider]]:h-5 [&_[role=slider]]:w-5 [&>span:first-child]:h-2 [&>span:first-child]:bg-pink-400"
                 />
               </div>
             )}

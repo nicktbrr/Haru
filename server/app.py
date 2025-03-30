@@ -109,10 +109,13 @@ def generate_video():
                 400,
             )
 
-        # Get the video format from the request
+        # Get the video format and adjustment parameters from the request
         data = request.get_json()
         video_format = data.get("format", "youtube")
+        brightness = data.get("brightness", 50)
+        contrast = data.get("contrast", 50)
         print(f"Received video format from frontend: {video_format}")
+        print(f"Received brightness: {brightness}, contrast: {contrast}")
 
         # Map video format to aspect ratio
         aspect_ratio_map = {
@@ -156,7 +159,9 @@ def generate_video():
 
         def generate_and_save_image(scene_data):
             i, scene = scene_data
-            image_url = test_image_generation(client, scene.image_prompt,aspect_ratio)
+            image_url = test_image_generation(
+                client, scene.image_prompt, aspect_ratio
+            )
             response = requests.get(image_url, stream=True)
 
             with open(f"./assets/images/image_{i}.jpg", "wb") as file:
@@ -229,6 +234,8 @@ def generate_video():
             output_path=output_file,
             audio_file=audio_file_path,
             normalize=True,
+            brightness=brightness,
+            contrast=contrast,
         )
 
         if not success:
@@ -236,7 +243,8 @@ def generate_video():
 
         # Copy the video to the Next.js public directory
         public_output_file = os.path.join(
-            app.config["NEXT_PUBLIC_FOLDER"], "output.mp4")
+            app.config["NEXT_PUBLIC_FOLDER"], "output.mp4"
+        )
         shutil.copy2(output_file, public_output_file)
 
         return jsonify(
@@ -245,6 +253,7 @@ def generate_video():
                 "filename": latest_file,
                 "filepath": audio_file_path,
                 "output_file": output_file,
+                "videoUrl": "/assets/output/output.mp4",
             }
         )
 
